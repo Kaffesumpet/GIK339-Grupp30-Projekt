@@ -36,16 +36,20 @@ const db = new sqlite3.Database("./gik339-projekt.db")
 server.get("/products", (req, res) => {
 
     // SQL fråga
-db.all("SELECT * FROM products", (err, rows) => {
-    if (err) {
-        res.status(500).send(err);
-    } else {
-        res.send(rows)
+    db.all("SELECT * FROM products", (err, rows) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.send(rows)
 
-    }
-});
-db.close();
+        }
+    });
+//db.close();
 })
+
+// Update/Post route 
+
+
 
 
 
