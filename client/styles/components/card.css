@@ -1,0 +1,124 @@
+.card-section {
+    height: auto;
+    width: 80%;
+    /* Set the width as a percentage of its container */
+    margin: 0 auto;
+    /* Center the section horizontally */
+}
+
+.card img {
+    display: block;
+    /* Set the image as a block-level element */
+    margin: 0 auto;
+    /* Center the image horizontally */
+    width: 55%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+
+
+.card-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    /* Adjust as needed */
+    height: auto;
+    width: 80%;
+    /* Set the width as a percentage of its container */
+    margin: 0 auto;
+    /* Center the section horizontally */
+}
+
+.card {
+    border: 2px solid #e29828;
+    width: calc(95% - 10px);
+    /* Adjust the width for smaller screens */
+    min-height: 275px;
+    /* Adjust as needed */
+    position: relative;
+    /* Set position to relative to contain absolute positioned elements */
+    /* Add more padding or margin to elements inside the product */
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background-color: #fff;
+    transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: perspective(600px) rotateY(4deg);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments */
+
+
+@media screen and (min-width: 500px) {
+    .card {
+        width: 48%;
+        /* Display two products in a row */
+        width: calc(50% - 20px);
+        /* Adjust the width for smaller screens */
+        margin-bottom: 20px;
+        /* Maintain the bottom margin */
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .card {
+        width: calc(30% - 20px);
+        /* Adjust the width to fit 4 cards in a row */
+    }
+
+}
+
+
+@media screen and (min-width: 1024px) {
+    .card {
+        width: calc(25% - 20px);
+        /* Adjust the width to fit 4 cards in a row */
+    }
+}
+
+/* Example styling for image, heading, price, and button */
+
+.card h2 {
+    font-size: 1.4em;
+    margin: 15px 0 10px;
+    text-align: center;
+    color: #333;
+}
+
+.card .price {
+    font-weight: bold;
+    font-size: 1.2em;
+    text-align: center;
+    color: #0f500a;
+}
+
+.card .buy-button {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    /* Align the button to the left */
+    width: 100%;
+    background-color: #e29828;
+    color: #fff;
+    border: none;
+    padding: 12px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.card .buy-button:hover {
+    background-color: #db8d18;
+}
+
+.image-frame {
+    display: flex;
+    border: 2px solid #e29828;
+    background-color: #2c2b2b;
+    height: 50%;
+}

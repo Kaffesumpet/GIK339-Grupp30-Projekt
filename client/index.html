@@ -1,13 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Document</title>
+    <title>Product Listing Page</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png" />
+    <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="stylesheet" href="./styles/components/card.css">
+    <link rel="stylesheet" href="./styles/components/nav.css">
 </head>
+
 <body>
-    
-    <script src="./script.js"></script>
+
+    <header class="top-nav">
+        <!-- Top Navigation Bar -->
+        <nav>
+            <ul class="first-nav">
+                <li>
+                    <a class="logo_frame" href="#">
+                        <div class="logo">
+                            <img src="img\H3logo.png" alt="Logo">
+                        </div>
+                        <div>
+                            <span class="golden-text">Heroes <span class="roman-numerals">III</span>
+                                <span class="nfts-text">NFTs.com</span></span>
+                        </div>   
+                    </a>
+                </li>
+                <li class="search-bar">
+                    <form action="#" method="GET">
+                        <input type="text" placeholder="Search...">
+                        <button type="submit">Search</button>
+                    </form>
+                </li>
+                <li><a href="#">
+                        <div class="logo">
+                            <img src="img\shopping-cart.png" alt="Logo">
+                        </div>
+                    </a></li>
+            </ul>
+            <ul class="second-nav">
+                <li><a href="#">All</a></li>
+                <li><a href="#">Castle</a></li>
+                <li><a href="#">Rampart</a></li>
+                <li><a href="#">Tower</a></li>
+                <li><a href="#">Inferno</a></li>
+                <li><a href="#">Necropolis</a></li>
+                <li><a href="#">Dungeon</a></li>
+                <li><a href="#">Stronghold</a></li>
+                <li><a href="#">Fontress</a></li>
+                <li><a href="#">Conflux</a></li>
+                <li><a href="#">Cove</a></li>
+                <!-- Add more categories as needed -->
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="card-section">
+            <!--- https://mightandmagic.fandom.com/wiki/Category:Heroes_III_creature_icon_images -->
+            <div class="card">
+                <div class="image-frame">
+                    <img src="img\products\Heroes_III_Troglodyte_Icon.webp" alt="Troglodyte">
+                </div>
+                <h2>Troglodyte</h2>
+                <p class="price">$50</p>
+                <button class="buy-button">Add to Cart</button>
+            </div>
+
+            <div class="card">
+                <div class="image-frame">
+                    <img src="img\products\HarpyIII_icon.webp" alt="Harpy">
+                </div>
+                <h2>Harpy</h2>
+                <p class="price">$130</p>
+                <button class="buy-button">Add to Cart</button>
+            </div>
+
+            <div class="card">
+                <div class="image-frame">
+                    <img src="img\products\Beholder_icon.webp" alt="Beholder">
+                </div>
+                <h2>Beholder</h2>
+                <p class="price">$250</p>
+                <button class="buy-button">Add to Cart</button>
+            </div>
+
+            <div class="card">
+                <div class="image-frame">
+                    <img src="img\products\MedusaIII_icon.webp" alt="Medusa">
+                </div>
+                <h2>Medusa</h2>
+                <p class="price">$300</p>
+                <button class="buy-button">Add to Cart</button>
+            </div>
+
+            <div class="card">
+                <div class="image-frame">
+                    <img src="img\products\MinotaurIII_icon.webp" alt="Minotaur">
+                </div>
+                <h2>Minotaur</h2>
+                <p class="price">$500</p>
+                <button class="buy-button">Add to Cart</button>
+            </div>
+
+            <div class="card">
+                <div class="image-frame">
+                    <img src="img\products\Manticore_icon.webp" alt="Manicore">
+                </div>
+                <h2>Manticore</h2>
+                <p class="price">$850</p>
+                <button class="buy-button">Add to Cart</button>
+            </div>
+
+            <div class="card">
+                <div class="image-frame">
+                    <img src="img\products\RedDragonIII_icon.webp" alt="Red Dragon">
+                </div>
+                <h2>Red Dragon</h2>
+                <p class="price">$2500, 1 sulfur</p>
+                <button class="buy-button">Add to Cart</button>
+            </div>
+            <!-- Add more cards divs as needed -->
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Triverse Innovations (Grupp 30)</p>
+    </footer>
+
 </body>
 </html>
