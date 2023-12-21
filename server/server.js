@@ -49,14 +49,33 @@ server.get("/products", (req, res) => {
 
 // Update/Post route 
 
+// Route för att hämta en rad ur tabellen beroende av Id, i detta fall id 1 men ska ändras
 
+server.get("/products", (req, res) => {
+    // SQL fråga
 
+db.all("SELECT productName, productCategory, productPrice, productQuantity, productImage WHERE Id = 1", (err, rows) => {
+    if (err) {
+        res.status(500).send(err);
+    } else {
+        res.send(rows)
+    }
+});
+})
 
+// Update/Post route 
 
+// Delete route
 
+// Ska ändras så man kan hämta id från användare
 
-
-
-
-
+server.delete("/products", (req,res) => {
+    db.all("DELETE FROM products where Id = 2", (err, rows) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            console.log(`${rows} have been deleted from the database!`);
+        }
+    });
+})
 

@@ -52,3 +52,10 @@ document.getElementById("table").innerHTML = tableContent;
 
 } 
 
+// Mona har testat att försöka få ut bilden på detta sätt
+/*
+const base64Image = btoa(String.fromCharCode.apply(null, new Uint8Array(product.productImage)));
+        const imageSrc = `data:image/gif;base64,${base64Image}`;
+        console.log(imageSrc);
+
+        */
