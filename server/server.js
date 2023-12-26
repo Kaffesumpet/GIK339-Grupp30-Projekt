@@ -63,7 +63,28 @@ db.all("SELECT productName, productCategory, productPrice, productQuantity, prod
 });
 })
 
-// Update/Post route 
+// Post route 
+
+server.post('/products', (req, res) => {
+    const product = req.body;
+
+    const sql = `INSERT INTO products(productName, productCategory, productImage, productPrice, productQuantity)VALUES
+    (?,?,?,?,?)`;
+
+    db.run(sql, Object.values(product), (err) => {
+        if(err) {
+            console.log(err);
+            res.status(500).send(err);
+        } else {
+           res.send("The product is saved in the database") 
+        }
+
+    })
+
+})
+
+
+
 
 // Delete route
 

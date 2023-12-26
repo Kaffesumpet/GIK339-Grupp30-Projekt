@@ -41,7 +41,7 @@
     /* Add more padding or margin to elements inside the product */
     margin-bottom: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(33, 37, 41);
     overflow: hidden;
     background-color: #fff;
     transition: transform 0.3s ease-in-out;
@@ -119,6 +119,6 @@
 .image-frame {
     display: flex;
     border: 2px solid #e29828;
-    background-color: #2c2b2b;
+    background-color: rgba(33, 37, 41);
     height: 50%;
 }

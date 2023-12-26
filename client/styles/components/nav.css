@@ -114,14 +114,14 @@ nav ul li a {
 }
 
 /* Style for the golden text */
-.top-nav ul li .golden-text {
+.golden-text {
     color: #e29828;
     -webkit-text-stroke: 1px;
 }
 
 
 /* Style for the Roman numerals */
-.top-nav ul li .roman-numerals {
+.roman-numerals {
     font-style: normal;
     font-variant: small-caps;
     font-weight: normal;
@@ -129,6 +129,57 @@ nav ul li a {
     /* Add a small margin between the elements */
     text-decoration: overline underline;
     /* Adding both overline and underline */
+}
+
+
+
+/* Bar above the Roman numerals */
+.roman-numerals::before {
+    top: 50%;
+}
+
+/* Bar below the Roman numerals */
+.roman-numerals::after {
+    top: 50%;
+}
+
+/* Style for the NFTs text */
+.nfts-text {
+    display: block;
+    font-size: 14px;
+    /* Adjust font size as needed */
+}
+
+
+/* Unused */
+
+.top-nav .search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.top-nav .search-bar button {
+    padding: 8px 12px;
+    background-color: #e29828;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.top-nav .search-bar button:hover {
+    background-color: #db8d18;
+}
+
+.second-nav li {
+    display: inline-block;
+    margin: 5px;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Style changes when hovering over the highlighted element */
+.second-nav li:hover {
+    transform: scale(1.1);
 }
 
 
