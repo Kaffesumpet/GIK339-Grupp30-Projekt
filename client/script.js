@@ -82,8 +82,8 @@ function fetchProducts() {
                             <li class="list-group-item">Product id: ${product.productID}</li>
                         </ul>
                         <div>
-                            <button type="button" onclick= "handleUpdate" class="btn btn-warning mt-2" id="updateBtn-${product.productID}">Update</button>
-                            <button type="button" onclick = "handleDelete" class="btn btn-danger mt-2" id="deleteBtn-${product.productID}">Delete</button>
+                            <button type="button" class="btn btn-warning mt-2" id="updateBtn-${product.productID}">Update</button>
+                            <button type="button" class="btn btn-danger mt-2" id="deleteBtn-${product.productID}">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -149,38 +149,51 @@ function handleSubmit(e) {
 }
 
 function updateModal(product) {
-    document.getElementById('updatedProductName').value = product.productName;
-    document.getElementById('updatedProductCategory').value = product.productCategory;
-    document.getElementById('updatedProductPrice').value = product.productPrice;
-    document.getElementById('updatedProductQuantity').value = product.productQuantity;
+  console.log("updateModal function called");
+  const updateModal = document.querySelector('#updateModal');
 
-    const updateModal = new bootstrap.Modal(document.getElementById('updateModal'));
-    updateModal.show();
+  document.getElementById('updatedProductName').value = product.productName;
+  document.getElementById('updatedProductCategory').value = product.productCategory;
+  document.getElementById('updatedProductPrice').value = product.productPrice;
+  document.getElementById('updatedProductQuantity').value = product.productQuantity;
+
+  updateModal.show();
 }
 
 function handleUpdate(productId) {
-    const updatedProduct = {
+  // Fetch the product data from the database
+  fetch(`${serverURL}/${productId}`)
+    .then((response) => response.json())
+    .then((productData) => {
+      // Update the product information in the modal form
+      document.getElementById('updatedProductName').value = productData.productName;
+      document.getElementById('updatedProductCategory').value = productData.productCategory;
+      document.getElementById('updatedProductPrice').value = productData.productPrice;
+      document.getElementById('updatedProductQuantity').value = productData.productQuantity;
+
+      // Update the product in the backend
+      const updatedProduct = {
+        productID: productData.productID,
         productName: document.getElementById('updatedProductName').value,
         productCategory: document.getElementById('updatedProductCategory').value,
         productPrice: document.getElementById('updatedProductPrice').value,
         productQuantity: document.getElementById('updatedProductQuantity').value,
-        productID: productId
-    };
+      };
 
-    const request = new Request(serverURL, {
+      const request = new Request(serverURL, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(updatedProduct)
-    });
+      });
 
-    fetch(request).then((response) => {
+      fetch(request).then((response) => {
         fetchProducts();
         userForm.reset();
       });
+    });
 }
-
 function handleDelete(e, productID) {
     
 }

@@ -89,28 +89,28 @@ server.post("/products", (req, res) => {
 })
 
 // Put route, uppdaterar en produkt (rad) i databasen beroende på ID't.
-server.put("/products/:id", (req, res) => {
-    const productID = req.params.id;
-    const updatedProduct = req.body;
-    const sql = `UPDATE products 
-                 SET productName = ?, 
-                     productCategory = ?, 
-                     productImage = ?, 
-                     productPrice = ?, 
-                     productQuantity = ? 
-                 WHERE Id = ?`;
+// server.put("/products/:id", (req, res) => {
+//     const productID = req.params.id;
+//     const updatedProduct = req.body;
+//     const sql = `UPDATE products 
+//                  SET productName = ?, 
+//                      productCategory = ?, 
+//                      productImage = ?, 
+//                      productPrice = ?, 
+//                      productQuantity = ? 
+//                  WHERE Id = ?`;
         
-        db.run(sql, [...Object.values(updatedProduct), productID], (err, rows) => {
+//         db.run(sql, [...Object.values(updatedProduct), productID], (err, rows) => {
 
-            if (err) {
-                console.log(err);
-                res.status(500).send(err);  
-            } else {
-                res.send(`Produkt: ${productID}, has been successfully updated in the database.`);
-            }
-        });   
-// db.close();  
-})
+//             if (err) {
+//                 console.log(err);
+//                 res.status(500).send(err);  
+//             } else {
+//                 res.send(`Produkt: ${productID}, has been successfully updated in the database.`);
+//             }
+//         });   
+// // db.close();  
+// })
 
 // UPDATE route
 
