@@ -47,19 +47,13 @@ server.get("/products", (req, res) => {
 // Route för att hämta en produkt / rad ur databasen beroende på ID.
 server.get("/products/:id", (req, res) => {
     const productID = req.params.id;
-    const sql = `SELECT productName, 
-                        productCategory, 
-                        productPrice, 
-                        productQuantity, 
-                        productImage
-                 FROM products        
-                 WHERE Id = ?`;
-
-    db.all(sql, [productID], (err, rows) => {
+    const sql = `SELECT * FROM products WHERE productID = ${productID}`;
+               
+    db.all(sql, (err, rows) => {
         if (err) {
             res.status(500).send(err);
         } else {
-            res.send(rows)
+            res.send(rows[0])
         }
     });
 // db.close();    
@@ -152,14 +146,14 @@ server.put("/products", (req,res) => {
 // Delete route, tar bort en produkt (rad) i databasen, beroende på ID't.
 server.delete("/products/:id", (req,res) => {
     const productID = req.params.id;
-    const sql = `DELETE FROM products WHERE Id = ?`;
+    const sql = `DELETE FROM products WHERE productID = ${productID}`;
 
-    db.run(sql, [productID], (err, rows) => {
+    db.run(sql, (err) => {
         if (err) {
-            console.error(err);
+            console.log(err);
             res.status(500).send(err);
         } else {
-            console.log(`${rows} has succesfully been deleted from the database!`);
+            res.send(`The product woth ${productID} has succesfully been deleted from the database!`);
         } 
     });         
 // db.close();

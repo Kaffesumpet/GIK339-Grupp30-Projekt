@@ -215,9 +215,15 @@ function handleUpdate(productId) {
       });
     });
 }
-function handleDelete(e, productID) {
-    
+
+
+function handleDelete(e,productID) {
+  console.log('delete', id);
+  console.log(e);
+  fetch(`${url}/${productID}`, {method: `DELETE`})
+  .then((result) => fetchProducts());  
 }
+
 
 const tc = window.innerHeight / 2 - $('.item').height() / 2 - $(this.closest('.item')).offset().top;
 const lc = window.innerWidth / 2 - $('.item').width() / 2 - $(this.closest('.item')).offset().left;
