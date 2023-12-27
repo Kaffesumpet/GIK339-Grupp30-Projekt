@@ -83,6 +83,21 @@ server.post('/products', (req, res) => {
 
 })
 
+server.put("/products/:id", (req, res) => {
+    const product = req.body;
+
+    const sql = `UPDATE products SET productName = ?, productCategory = ?, productImage = ?, productPrice = ?, productQuantity = ? WHERE Id = 1`;
+
+    db.run(sql, Object.values(product), (err) => {
+        if(err) {
+            console.log(err);
+            res.status(500).send(err);
+        } else {
+           res.send("The product is updated in the database") 
+        }
+    })
+})
+
 
 
 
