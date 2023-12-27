@@ -97,6 +97,23 @@ function fetchProducts() {
       cardSection.innerHTML = " ";
       cardSection.insertAdjacentHTML("beforeend", html);
 
+      var elementCards = document.querySelectorAll('.card');
+
+      elementCards.forEach(function (card) {
+        card.addEventListener('click', function () {
+            if (card.classList.contains('open')) {
+                card.classList.remove('open');
+                card.classList.add('card-hover');
+            } else {
+                elementCards.forEach(function (item) {
+                    item.classList.remove('open');
+                });
+                card.classList.add('open');
+                card.classList.remove('card-hover');
+            }
+        });
+    });
+
       products.forEach((product) => {
         const updateButton = document.getElementById(`updateBtn-${product.productID}`);
         updateButton.addEventListener("click", () => {
@@ -113,6 +130,10 @@ function fetchProducts() {
 }
 
 fetchProducts();
+ 
+
+
+
 
 userForm.addEventListener("submit", handleSubmit);
 
@@ -185,3 +206,8 @@ function handleDelete(e, productID) {
     
 }
 
+const tc = window.innerHeight / 2 - $('.item').height() / 2 - $(this.closest('.item')).offset().top;
+const lc = window.innerWidth / 2 - $('.item').width() / 2 - $(this.closest('.item')).offset().left;
+
+document.documentElement.style.setProperty('--top-calc', `${tc}px`);
+document.documentElement.style.setProperty('--left-calc', `${lc}px`);

@@ -33,101 +33,33 @@
 .card {
     border: 2px solid #e29828;
     width: calc(95% - 10px);
-    /* Adjust the width for smaller screens */
     min-height: 275px;
-    /* Adjust as needed */
     position: relative;
-    /* Set position to relative to contain absolute positioned elements */
-    /* Add more padding or margin to elements inside the product */
     margin-bottom: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(33, 37, 41);
     overflow: hidden;
     background-color: #fff;
-    transition: transform 0.3s ease-in-out;
+    transition: all 0.6s;
+    cursor: Pointer;
 }
 
-.card:hover {
-    transform: perspective(600px) rotateY(4deg);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-/* Responsive adjustments */
-
-
-@media screen and (min-width: 500px) {
-    .card {
-        width: 48%;
-        /* Display two products in a row */
-        width: calc(50% - 20px);
-        /* Adjust the width for smaller screens */
-        margin-bottom: 20px;
-        /* Maintain the bottom margin */
-    }
-}
-
-@media screen and (min-width: 900px) {
-    .card {
-        width: calc(30% - 20px);
-        /* Adjust the width to fit 4 cards in a row */
-    }
-
-}
-
-
-@media screen and (min-width: 1024px) {
-    .card {
-        width: calc(25% - 20px);
-        /* Adjust the width to fit 4 cards in a row */
-    }
-}
-
-/* Example styling for image, heading, price, and button */
-
-.card h2 {
-    font-size: 1.4em;
-    margin: 15px 0 10px;
-    text-align: center;
-    color: #333;
-}
-
-.card .price {
-    font-weight: bold;
-    font-size: 1.2em;
-    text-align: center;
-    color: #0f500a;
-}
-
-.card .buy-button {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    /* Align the button to the left */
-    width: 100%;
-    background-color: #e29828;
-    color: #fff;
-    border: none;
-    padding: 12px 0;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.card .buy-button:hover {
-    background-color: #db8d18;
-}
 
 .image-frame {
     display: flex;
-    border: 2px solid #e29828;
+    border: 0.3rem solid #e29828;
+    overflow: hidden;
     background-color: rgba(33, 37, 41);
     height: 50%;
 }
 
-
-.card-hover {
-    transition: transform 0.3s ease-in-out;
-}
-
 .card-hover:hover {
     transform: scale(1.10);
+}
+
+.open {
+    z-index: 9999;
+    box-shadow: 0 16px 16px rgba(33, 37, 41);
+    transform: scale(1.3);
+
 }
