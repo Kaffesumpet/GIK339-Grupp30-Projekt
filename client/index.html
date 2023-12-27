@@ -257,9 +257,36 @@
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
+                <div class="modal-body">
+                    <form id = "userForm"> 
+                        <div class="form-group mt-2">
+                          <label for="productName">Product name</label>
+                          <input type="text" class="form-control" id="inputProductName" aria-describedby="" placeholder="Enter product name" name ="productName">
+                          <!-- <small id="prodNameHelp" class="form-text text-muted"></small> -->
+                        </div> 
+                        <div class="form-group mt-2">
+                            <label for="productCategory">Product category</label>
+                            <select class="form-control" id="formSelectProductCategory" name="productCategory">
+                              <option value="Dungeon">Dungeon</option>
+                              <option value="Necropolis">Necropolis</option>
+                            </select>
+                          </div>
+                          <div class="form-group mt-2">
+                            <label for="productPrice">Product price</label>
+                            <input type="text" class="form-control" id="inputProductPrice" placeholder="Enter product price" name ="productPrice">
+                          </div>
+                          <div class="form-group mt-2">
+                            <label for="exampleInputEmail1">Product quantity</label>
+                            <input type="text" class="form-control" id="inputProductQuantity" aria-describedby="" placeholder="Enter product quantity" name ="productQuantity">
+                            <!-- <small id="prodQuantityHelp" class="form-text text-muted"></small> -->
+                          </div>
+                          <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                      </form> 
+                </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary">Clear</button>
-                        <button type="button" class="btn btn-success">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="reset" class="btn btn-secondary">Clear</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
             </div>
@@ -276,29 +303,26 @@
                         <form id="updateForm">
                             <div class="form-group mt-2">
                                 <label for="productName">Product name</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby=""
-                                    placeholder="Enter product name" name="productName">
+                                <input type="text" class="form-control" id="exampleInputEmail2" aria-describedby="" placeholder="Enter product name" name ="productName">
                                 <small id="emailHelp" class="form-text text-muted"></small>
-                            </div>
-                            <div class="form-group mt-2">
-                                <label for="productCategory">Product category</label>
-                                <select class="form-control" id="exampleFormControlSelect1" name="productCategory">
+                              </div> 
+                              <div class="form-group mt-2">
+                                  <label for="productCategory">Product category</label>
+                                  <select class="form-control" id="exampleFormControlSelect2" name="productCategory">
                                     <option value="Dungeon">Dungeon</option>
                                     <option value="Necropolis">Necropolis</option>
-                                </select>
-                            </div>
-                            <div class="form-group mt-2">
-                                <label for="productPrice">Product price</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1"
-                                    placeholder="Enter product price" name="productPrice">
-                            </div>
-                            <div class="form-group mt-2">
-                                <label for="exampleInputEmail1">Product quantity</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby=""
-                                    placeholder="Enter product quantity" name="productQuantity">
-                                <small id="quantityHelp" class="form-text text-muted"></small>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Update</button>
+                                  </select>
+                                </div>
+                                <div class="form-group mt-2">
+                                  <label for="productPrice">Product price</label>
+                                  <input type="text" class="form-control" id="exampleInputPassword2" placeholder="Enter product price" name ="productPrice">
+                                </div>
+                                <div class="form-group mt-2">
+                                  <label for="exampleInputEmail1">Product quantity</label>
+                                  <input type="text" class="form-control" id="exampleInputEmail2" aria-describedby="" placeholder="Enter product quantity" name ="productQuantity">
+                                  <small id="quantityHelp" class="form-text text-muted"></small>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update</button>
                         </form>
                     </div>
                 </div>
