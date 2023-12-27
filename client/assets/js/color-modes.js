@@ -4,6 +4,8 @@
  * Licensed under the Creative Commons Attribution 3.0 Unported License.
  */
 
+/*
+
 (() => {
   'use strict'
 
@@ -14,7 +16,7 @@
     const storedTheme = getStoredTheme()
     if (storedTheme) {
       return storedTheme
-    }
+    } 
 
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   }
@@ -76,5 +78,7 @@
           showActiveTheme(theme, true)
         })
       })
-  })
+  })  
 })()
+
+*/

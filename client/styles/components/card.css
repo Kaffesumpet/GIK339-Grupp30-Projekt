@@ -122,3 +122,12 @@
     background-color: rgba(33, 37, 41);
     height: 50%;
 }
+
+
+.card-hover {
+    transition: transform 0.3s ease-in-out;
+}
+
+.card-hover:hover {
+    transform: scale(1.10);
+}

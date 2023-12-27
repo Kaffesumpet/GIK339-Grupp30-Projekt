@@ -129,6 +129,7 @@ nav ul li a {
     /* Add a small margin between the elements */
     text-decoration: overline underline;
     /* Adding both overline and underline */
+    font-family: sans-serif;
 }
 
 

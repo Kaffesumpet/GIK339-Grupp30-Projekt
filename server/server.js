@@ -1,13 +1,11 @@
-
 // Gör det möjligt att använda express 
 const express = require("express");
-
 const server = express();
 
-// Skaoa databasobjekt
+// Skapa en instans av databasobjektet
 const sqlite3 = require("sqlite3").verbose(); 
 
-// Course
+// CORS
 server
     .use(express.json())
     .use(express.urlencoded({ extended: false }))
@@ -15,103 +13,155 @@ server
     req,
     res,
     next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', '*');
-    res.header('Access-Control-Allow-Methods', '*');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "*");
+    res.header("Access-Control-Allow-Methods", "*");
     next();
 });
 
 // Starta servern
-server.listen(3000, () => {
+server.listen(3000, () => { 
     console.log(`Server is running on http://localhost:3000`);
 })
 
 // Skapa sökväg för databas
-
 const db = new sqlite3.Database("./gik339-projekt.db") 
 
 // Skapa routes 
 
-// Route för att hämta alla rader ur tabellen
+// Route för att hämta alla produkter / rader ur databasen.
 server.get("/products", (req, res) => {
-
     // SQL fråga
-    db.all("SELECT * FROM products", (err, rows) => {
+    const sql = `SELECT * FROM products`;
+
+    db.all(sql, (err, rows) => {
         if (err) {
             res.status(500).send(err);
         } else {
             res.send(rows)
-
         }
     });
-//db.close();
+// db.close();
 })
 
-// Update/Post route 
+// Route för att hämta en produkt / rad ur databasen beroende på ID.
+server.get("/products/:id", (req, res) => {
+    const productID = req.params.id;
+    const sql = `SELECT productName, 
+                        productCategory, 
+                        productPrice, 
+                        productQuantity, 
+                        productImage
+                 FROM products        
+                 WHERE Id = ?`;
 
-// Route för att hämta en rad ur tabellen beroende av Id, i detta fall id 1 men ska ändras
-
-server.get("/products", (req, res) => {
-    // SQL fråga
-
-db.all("SELECT productName, productCategory, productPrice, productQuantity, productImage WHERE Id = 1", (err, rows) => {
-    if (err) {
-        res.status(500).send(err);
-    } else {
-        res.send(rows)
-    }
-});
-})
-
-// Post route 
-
-server.post('/products', (req, res) => {
-    const product = req.body;
-
-    const sql = `INSERT INTO products(productName, productCategory, productImage, productPrice, productQuantity)VALUES
-    (?,?,?,?,?)`;
-
-    db.run(sql, Object.values(product), (err) => {
-        if(err) {
-            console.log(err);
-            res.status(500).send(err);
-        } else {
-           res.send("The product is saved in the database") 
-        }
-
-    })
-
-})
-
-server.put("/products/:id", (req, res) => {
-    const product = req.body;
-
-    const sql = `UPDATE products SET productName = ?, productCategory = ?, productImage = ?, productPrice = ?, productQuantity = ? WHERE Id = 1`;
-
-    db.run(sql, Object.values(product), (err) => {
-        if(err) {
-            console.log(err);
-            res.status(500).send(err);
-        } else {
-           res.send("The product is updated in the database") 
-        }
-    })
-})
-
-
-
-
-// Delete route
-
-// Ska ändras så man kan hämta id från användare
-
-server.delete("/products", (req,res) => {
-    db.all("DELETE FROM products where Id = 2", (err, rows) => {
+    db.all(sql, [productID], (err, rows) => {
         if (err) {
             res.status(500).send(err);
         } else {
-            console.log(`${rows} have been deleted from the database!`);
+            res.send(rows)
+        }
+    });
+// db.close();    
+})
+
+// Post route, lägger till en ny produkt (rad) i databasen. 
+server.post("/products", (req, res) => {
+    const product = req.body;
+    console.log(product);
+    const sql = `INSERT INTO products(
+                             productName, 
+                             productCategory,  
+                             productPrice, 
+                             productQuantity)
+                 VALUES
+                    (?,?,?,?)`;
+    
+     db.run(sql, Object.values(product), (err) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send(err);
+        } else {
+            res.send("The product has been saved in the database.") 
+        }
+        });
+// db.close();  
+})
+
+// Put route, uppdaterar en produkt (rad) i databasen beroende på ID't.
+server.put("/products/:id", (req, res) => {
+    const productID = req.params.id;
+    const updatedProduct = req.body;
+    const sql = `UPDATE products 
+                 SET productName = ?, 
+                     productCategory = ?, 
+                     productImage = ?, 
+                     productPrice = ?, 
+                     productQuantity = ? 
+                 WHERE Id = ?`;
+        
+        db.run(sql, [...Object.values(updatedProduct), productID], (err, rows) => {
+
+            if (err) {
+                console.log(err);
+                res.status(500).send(err);  
+            } else {
+                res.send(`Produkt: ${productID}, has been successfully updated in the database.`);
+            }
+        });   
+// db.close();  
+})
+
+// UPDATE route
+
+server.put("/products", (req,res) => {
+
+    const bodyData = req.body;
+
+    const id = bodyData.productID;
+
+    const product = {
+
+        productName: bodyData.productName,
+        productCategory: bodyData.productCategory,
+        productPrice: bodyData.productPrice,
+        productQuantity: bodyData.productQuantity
+    };
+
+    let updateString = " ";
+
+    const productsArray = Object.keys(product);
+    columnsArray.forEach((column, i) => {
+        updateString += `${column} = "${product[column]}"`;
+        if (i !== columnsArray.lenght - 1) updateString += ",";
+
+    });
+    res.send(updateString);
+    const sql = `UPDATE products SET  ${updateString} WHERE id = ${id}`
+
+    db.run(sql, (err) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send(err);  
+        } else {
+            res.send("The product has been updated");
         }
     });
 })
+
+// Delete route, tar bort en produkt (rad) i databasen, beroende på ID't.
+server.delete("/products/:id", (req,res) => {
+    const productID = req.params.id;
+    const sql = `DELETE FROM products WHERE Id = ?`;
+
+    db.run(sql, [productID], (err, rows) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send(err);
+        } else {
+            console.log(`${rows} has succesfully been deleted from the database!`);
+        } 
+    });         
+// db.close();
+});
 
