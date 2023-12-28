@@ -108,19 +108,34 @@ server.put("/products", (req,res) => {
     });
 })
 
-// Delete route, tar bort en produkt (rad) i databasen, beroende på ID't.
-server.delete("/products/:id", (req,res) => {
-    const productID = req.params.id;
-    const sql = `DELETE FROM products WHERE productID = ${productID}`;
+//Delete route, tar bort en produkt (rad) i databasen, beroende på ID't.
+// server.delete("/products/:id", (req,res) => {
+//     const productID = req.params.id;
+//     console.log("Received productID:", productID);
+//     const sql = `DELETE FROM products WHERE productID = ${productID}`;
 
-    db.run(sql, (err) => {
+//     db.run(sql, (err) => {
+//         if (err) {
+//             console.log(err);
+//             res.status(500).send(err);
+//         } else {
+//             res.send(`The product with ${productID} has succesfully been deleted from the database!`);
+//         } 
+//     });         
+// // db.close();
+// });
+
+server.delete("/products/:id", (req, res) => {
+    const productID = req.params.id;
+    console.log("Received productID:", productID);
+    const sql = `DELETE FROM products WHERE productID = ?`;
+
+    db.run(sql, [productID], (err) => {
         if (err) {
             console.log(err);
             res.status(500).send(err);
         } else {
-            res.send(`The product with ${productID} has succesfully been deleted from the database!`);
+            res.send(`The product with ${productID} has successfully been deleted from the database!`);
         } 
     });         
-// db.close();
 });
-

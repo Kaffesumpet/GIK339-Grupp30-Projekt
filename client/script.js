@@ -1,5 +1,8 @@
 const serverURL = "http://localhost:3000/products";
 
+const hideProductsBtn = document.getElementById("hideAllBtn");
+
+
 // NY fetch funktion för att kunna visa allt i databasen i cards
 function fetchProducts(e) {
   fetch(serverURL)
@@ -10,16 +13,16 @@ function fetchProducts(e) {
       products.forEach((product) => {
         html += ` 
             <div class = "col-auto"> 
-                <div class="card card-hover h-100" style="width:200px"> 
+                <div class="card card-hover" style="width:190px; height:450px"> 
                     <div class="image-frame">
                         <img class="card-img-top" src="img/products/${product.productName}.webp" alt="Card image">
                     </div>    
                     <div class="card-body">
                     <h3 class="card-title">${product.productName}</h3>
-                        <ul class="list-group list-group-flush">
+                        <ul class="list-group list-group-flush ">
                             <li class="list-group-item">Price: ${product.productPrice}</li>
                             <li class="list-group-item">Quantity: ${product.productQuantity}</li>
-                            <li class="list-group-item">Category: ${product.productCategory}</li>
+                            <li class="list-group-item">Faction: ${product.productCategory}</li>
                             <li class="list-group-item">Product id: ${product.productID}</li>
                         </ul>
                         <div> 
@@ -39,6 +42,8 @@ function fetchProducts(e) {
 
       var elementCards = document.querySelectorAll('.card');
 
+      hideProductsBtn.removeAttribute("hidden");
+
       elementCards.forEach(function (card) {
         card.addEventListener('click', function () {
             if (card.classList.contains('open')) {
@@ -57,39 +62,104 @@ function fetchProducts(e) {
   });
 }
 
-fetchProducts();
+const showBtn = document.getElementById("showAllBtn");
+
+showBtn.addEventListener("click", fetchProducts);
+
+const cardSection = document.getElementById("cardSection")
+function hideAllProducts() {
+  cardSection.replaceChildren = "";
+}
+
+const hideBtn = document.getElementById("hideAllBtn");
+
+hideBtn.addEventListener("click", hideAllProducts);
+
+//fetchProducts();
  
+// userForm.addEventListener("submit", handleSubmit);
+
+// function handleSubmit(e) {
+//   e.preventDefault(e);
+//   // Test
+//   console.log(userForm.productName.value);
+//   const serverObject = {
+//     productName: "",
+//     productCategory: "",
+//     productPrice: "",
+//     productQuantity: "",
+//   };
+
+//   serverObject.productName = userForm.productName.value;
+//   serverObject.productCategory = userForm.productCategory.value;
+//   serverObject.productPrice = userForm.productPrice.value;
+//   serverObject.productQuantity = userForm.productQuantity.value;
+//   // Test
+//   console.log(serverObject); 
+  
+//   const request = new Request(serverURL, {
+//     method: "POST",
+//     headers: {
+//       "content-type": "application/json",
+//     },
+//     body: JSON.stringify(serverObject),
+//   });
+
+//   // fetch(request).then((response) => {
+//   //   fetchProducts();
+//   //   userForm.reset();
+//   // });
+
+//   fetch(request).then((response) => {
+//     if (response.ok) {
+//         showModal("Success!", "The product was added to the database!", function() {
+//             fetchProducts();
+//             userForm.reset();
+//         });
+//     } else {
+//         showModal("Error", "An error has occured!");
+//     }
+//   });
+// }
+
 userForm.addEventListener("submit", handleSubmit);
 
 function handleSubmit(e) {
-  e.preventDefault(e);
-  // Test
-  console.log(userForm.productName.value);
+  console.log("Form submitted!");
+  e.preventDefault();
+
   const serverObject = {
-    productName: "",
-    productCategory: "",
-    productPrice: "",
-    productQuantity: "",
+    productName: userForm.productName.value,
+    productCategory: userForm.productCategory.value,
+    productPrice: userForm.productPrice.value,
+    productQuantity: userForm.productQuantity.value,
   };
 
-  serverObject.productName = userForm.productName.value;
-  serverObject.productCategory = userForm.productCategory.value;
-  serverObject.productPrice = userForm.productPrice.value;
-  serverObject.productQuantity = userForm.productQuantity.value;
-  // Test
-  console.log(serverObject); 
-  
-  const request = new Request(serverURL, {
+  fetch(serverURL, {
     method: "POST",
     headers: {
-      "content-type": "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(serverObject),
-  });
-
-  fetch(request).then((response) => {
-    fetchProducts();
-    userForm.reset();
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.json(); // Om allt går bra, returnera JSON-svaret
+    } else {
+      throw new Error('Network response was not ok.'); // Kasta ett fel om responsen inte är OK
+    }
+  })
+  .then(data => {
+    // Visa en bekräftelsemodal om allt gick bra
+    showModal("Success!", "The product was added to the database!", function() {
+      fetchProducts();
+      userForm.reset();
+    });
+  })
+  .catch(error => {
+    // Visa en felmodal om något gick fel
+    console.error('There was a problem with the fetch operation:', error);
+    showModal("Error", "An error has occurred!");
   });
 }
 // THOMAS EXPERIMENT KOD
@@ -195,51 +265,90 @@ function handleClear() {
   userForm.productQuantity.value = " ";
 }
 
-const deleteButton = document.querySelector("#deleteBtn");
-deleteButton.addEventListener("click", handleDelete());
+function showModal(title, message, callback) {
+  const modalMessage = document.querySelector("#messageModal .modal-body p");
+  const modalTitle = document.querySelector("#messageModal .modal-title");
+  const confirmButton = document.querySelector("#messageModal #confirmBtn");
 
-console.log(deleteButton);
+  modalTitle.textContent = title;
+  modalMessage.textContent = message;
 
-const productID = document.getElementById("deleteBtn-6")
+  // Visa modalfönstret
+  var myModal = new bootstrap.Modal(document.getElementById('messageModal'));
+  myModal.show();
 
+  // Lägg till en lyssnare på confirmBtn
+  confirmButton.addEventListener('click', function() {
+      myModal.hide();
+      if (callback) {
+          callback();
+      }
+  });
+}
 
-// function handleDelete(productID) {
-//   console.log(productID);
-//   fetch(`${serverURL}/${productID}`, { method: 'DELETE' })
-//     .then((response) => {
-//       if (response.ok) {
-//         // Perform actions after successful deletion
-//         fetchProducts() // Assuming fetchProducts returns a Promise
-//           .then(() => {
-//             // Notify user upon successful deletion
-//             showMessage('Product deleted successfully');
-//           })
-//           .catch((fetchError) => {
-//             throw fetchError; // Propagate fetch error
-//           });
-//       } else {
-//         throw new Error('Failed to delete product');
-//       }
-//     })
-//     .catch((error) => {
-//       // Handle errors here
-//       console.error('Error deleting product:', error);
-//       // Notify user about the error
-//       showMessage('Failed to delete product. Please try again.');
-//     });
-// }
+// function showModal(operationType, success) {
+//   const modalMessage = document.querySelector("#messageModal .modal-body p");
+//   const modalTitle = document.querySelector("#messageModal .modal-title");
+//   const confirmButton = document.querySelector("#messageModal #confirmBtn");
 
-// // Function to display a modal to the user
-// function showMessage(message) {
-//   // Set the message in the modal body
-//   document.getElementById('notificationMessage').innerText = message;
-//   // Show the modal
-//   $('#notificationModal').modal('show');
-// }
+//   let title = "";
+//   let message = "";
 
+//   switch (operationType) {
+//       case 'POST':
+//           title = success ? "Success!" : "Error";
+//           message = success ? "The product was added to the database!" : "An error has occured!";
+//           break;
+//       case 'PUT':
+//           title = success ? "Success!" : "Error";
+//           message = success ? "The product has been updated!" : "An error has occured!";
+//           break;
+//       case 'DELETE':
+//           title = success ? "Success!" : "Error";
+//           message = success ? "The product has been deleted!" : "An error has occured!";
+//           break;
+//   }
 
-function handleDelete(productID) { 
-  console.log(productID);
-  fetch(`${serverURL}/${productID}`, {method: `DELETE`})
-  .then((result) => fetchProducts());
+//   modalTitle.textContent = title;
+//   modalMessage.textContent = message;
+
+//   // Visa modalfönstret
+//   var myModal = new bootstrap.Modal(document.getElementById('messageModal'));
+//   myModal.show();
+
+//   // Lägg till en lyssnare på confirmBtn
+//   confirmButton.addEventListener('click', function() {
+//       myModal.hide();
+//   });
+// }  
+
+const deleteInfo = document.getElementById("staticBackdrop");
+deleteInfo.addEventListener("show.bs.modal", (event) => {
+  const deleteButton = document.getElementById("deleteButton");
+  const productId = document.getElementById('productIdInput').value;
+  
+  deleteButton.addEventListener("click", () => handleDelete(productId));
+});
+
+function handleDelete(productID) {
+  const confirmationModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+  confirmationModal.show();
+
+  const deleteConfirmed = document.getElementById("deleteBtn");
+  deleteConfirmed.addEventListener("click", () => {
+    fetch(`${serverURL}/${productID}`, { method: 'DELETE' })
+      .then((result) => {
+        fetchProducts();
+        confirmationModal.hide();
+      })
+      .catch((error) => {
+        console.error("Error deleting product:", error);
+        confirmationModal.hide();
+      });
+  });
+
+  // Handle modal hide event to refresh the page if the delete is not confirmed
+  deleteInfo.addEventListener("hide.bs.modal", () => {
+    window.location.reload();
+  }); 
 }

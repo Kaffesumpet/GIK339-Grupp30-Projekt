@@ -150,7 +150,7 @@
 
             </div>
         </div>
-        <div class="px-3 py-2 border-bottom mb-3">
+        <div class="px-3 py-2 border-bottom x6">
             <div class="container  d-flex flex-wrap justify-content-center">
                 <select class="form-select border-top" aria-label="Default select example">
                     <option selected>Select your NFT faction!</option>
@@ -173,62 +173,24 @@
 
 
     <main>
-
-
-
         <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
             <div class="col-lg-6 px-0">
                 <h1 class="display-4 fst-italic">Craft your NFT!</h1>
-                <p class="lead my-3">Add the cards the people would pay the most for! Think stonks!</p>
-                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#submitModal">
+                <p class="lead my-3">Add the cards the people would pay the most for! Think stonks! <img src="img/H2Gold.png"></p>
+                <button  type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#submitModal">
                     Submit to database
                 </button>
             </div>
         </div>
 
-
-
+        <section class="mb-2" id="">
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                <button type="button" class="btn btn-danger btn-lg" id="showAllBtn">Do not press this button!</button>
+                <button hidden="true" type="button" class="btn btn-secondary btn-lg" id="hideAllBtn" >Hide products</button>
+            </div>
+        </section> 
         <section id="card-section">
-            <!--TEST för ett provisoriskt card där produkter ska presenteras istället för en table-->
-            <div class="card h-100" style="width:300px">
-                <div class="image-frame">
-                    <img class="card-img-top" src="img/products/troglodyte.webp" alt="Card of Slippery Trog">
-                </div>
-                <div class="card-body">
-                    <h3 class="card-title">Troglodyte</h3>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Price: </li>
-                        <li class="list-group-item">Quantity: </li>
-                        <li class="list-group-item">Category: </li>
-                        <li class="list-group-item">Product id: </li>
-                    </ul>
-                    <div class="card-body">
-                        <button type="submit" class="btn btn-warning mt-2">Update</button>
-                        <button type="submit" class="btn btn-danger mt-2">Delete</button>
-                    </div>
-                </div>
-            </div>
-            <div class="card h-100" style="width:300px">
-                <div class="image-frame">
-                    <img class="card-img-top" src="img/products/skeleton.webp" alt="Card of Spooky Skeleton">
-                </div>
-                <div class="card-body">
-                    <h3 class="card-title">Troglodyte</h3>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Price: </li>
-                        <li class="list-group-item">Quantity: </li>
-                        <li class="list-group-item">Category: </li>
-                        <li class="list-group-item">Product id: </li>
-                    </ul>
-                    <div class="card-body">
-                        <button type="submit" class="btn btn-warning mt-2">Update</button>
-                        <button type="submit" class="btn btn-danger mt-2">Delete</button>
-                    </div>
-                </div>
-            </div>
-            <!--- https://mightandmagic.fandom.com/wiki/Category:Heroes_III_creature_icon_images -->
-
-            <!-- Add more cards divs as needed -->
+            
         </section> 
         
         <!--MODALS-->
@@ -244,9 +206,90 @@
                     <div class="modal-body">
                         <form id = "userForm"> 
                             <div class="form-group mt-2">
-                            <label for="productName">Creature Name</label>
-                            <input type="text" class="form-control" id="inputProductName" aria-describedby="" placeholder="Enter product name" name ="productName">
-                            </div> 
+                                <label for="productName">Creature Name</label>
+                                <select class="form-control" id="inputProductName" name="productName">
+                                    <option value="">Choose or type a creature name</option>
+                                    <option class="divider" disabled>───── Legendary Heroes ─────</option>
+                                    <option value="Hero">Hero</option>
+                                    <option value="Villain">Villain</option>
+                                    <option value="Merchant">Merchant</option>
+                                    <option value="Crestfallen">Crestfallen</option>
+                                    <option class="divider" disabled>───── Castle ─────</option>
+                                    <option value="Pikeman">Pikeman</option>
+                                    <option value="Archer">Archer</option>
+                                    <option value="Griffin">Griffin</option>
+                                    <option value="Swordsman">Swordsman</option>
+                                    <option value="Monk">Monk</option>
+                                    <option value="Cavalier">Cavalier</option>
+                                    <option value="Angel">Angel</option>
+                                    <option class="divider" disabled>───── Rampart ─────</option>
+                                    <option value="Centaur">Centaur</option>
+                                    <option value="Dwarf">Dwarf</option>
+                                    <option value="Wood Elf">Wood Elf</option>
+                                    <option value="Pegasus">Pegasus</option>
+                                    <option value="Dendroid Guard">Dendroid Guard</option>
+                                    <option value="Unicorn">Unicorn</option>
+                                    <option value="Green Dragon">Green Dragon</option>
+                                    <option class="divider" disabled>───── Tower ─────</option>
+                                    <option value="Gremlin">Gremlin</option>
+                                    <option value="Stone Gargoyle">Stone Gargoyle</option>
+                                    <option value="Stone Golem">Stone Golem</option>
+                                    <option value="Mage">Mage</option>
+                                    <option value="Genie">Genie</option>
+                                    <option value="Naga">Naga</option>
+                                    <option value="Giant">Giant</option>
+                                    <option class="divider" disabled>───── Inferno ─────</option>
+                                    <option value="Imp">Imp</option>
+                                    <option value="Gog">Gog</option>
+                                    <option value="Hell Hound">Hell Hound</option>
+                                    <option value="Demon">Demon</option>
+                                    <option value="Pit Fiend">Pit Fiend</option>
+                                    <option value="Efreeti">Efreeti</option>
+                                    <option value="Devil">Devil</option>
+                                    <option class="divider" disabled>───── Necropolis ─────</option>
+                                    <option value="Skeleton">Skeleton</option>
+                                    <option value="Walking Dead">Walking Dead</option>
+                                    <option value="Wight">Wight</option>
+                                    <option value="Vampire">Vampire</option>
+                                    <option value="Lich">Lich</option>
+                                    <option value="Black Knight">Black Knight</option>
+                                    <option value="Bone Dragon">Bone Dragon</option>
+                                    <option class="divider" disabled>───── Dungeon ─────</option>
+                                    <option value="Troglodyte">Troglodyte</option>
+                                    <option value="Harpy">Harpy</option>
+                                    <option value="Beholder">Beholder</option>
+                                    <option value="Medusa">Medusa</option>
+                                    <option value="Minotaur">Minotaur</option>
+                                    <option value="Manticore">Manticore</option>
+                                    <option value="Red Dragon">Red Dragon</option>
+                                    <option class="divider" disabled>───── Stronghold ─────</option>
+                                    <option value="Goblin">Goblin</option>
+                                    <option value="Wolf Rider">Wolf Rider</option>
+                                    <option value="Orc">Orc</option>
+                                    <option value="Ogre">Ogre</option>
+                                    <option value="Roc">Roc</option>
+                                    <option value="Cyclops">Cyclops</option>
+                                    <option value="Behemoth">Behemoth</option>
+                                    <option class="divider" disabled>───── Fortress ─────</option>
+                                    <option value="Gnoll">Gnoll</option>
+                                    <option value="Lizardman">Lizardman</option>
+                                    <option value="Serpent Fly">Serpent Fly</option>
+                                    <option value="Basilisk">Basilisk</option>
+                                    <option value="Gorgon">Gorgon</option>
+                                    <option value="Wyvern">Wyvern</option>
+                                    <option value="Hydra">Hydra</option>
+                                    <option class="divider" disabled>───── Conflux ─────</option>
+                                    <option value="Pixie">Pixie</option>
+                                    <option value="Air Elemental">Air Elemental</option>
+                                    <option value="Water Elemental">Water Elemental</option>
+                                    <option value="Fire Elemental">Fire Elemental</option>
+                                    <option value="Earth Elemental">Earth Elemental</option>
+                                    <option value="Psychic Elemental">Psychic Elemental</option>
+                                    <option value="Firebird">Firebird</option>
+
+                                </select>
+                                <input type="text" class="form-control mt-2" id="otherProductName" aria-describedby="" placeholder="Enter product name" name="otherProductName" style="display: none;">
+                            </div>
                             <div class="form-group mt-2">
                                 <label for="productCategory">Faction-Category</label>
                                 <select class="form-control" id="formSelectProductCategory" name="productCategory">
@@ -279,6 +322,24 @@
             </div>
         </div>
 
+        <!-- Message MODAL -->
+        <div class="modal fade" id="messageModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="messageModalLabel"></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="confirmBtn">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- DELETE MODAL -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -291,7 +352,7 @@
                     <p>Are you sure you want to delete this product?</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" id = "deleteBtn">Delete</button>
+                  <button type="button" class="btn btn-danger" id="deleteBtn">Confirm Delete</button>
                 </div>
               </div>
             </div>
