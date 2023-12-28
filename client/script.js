@@ -1,67 +1,8 @@
 const serverURL = "http://localhost:3000/products";
 
-const productTable = document.createElement("table");
-productTable.setAttribute("id", "table");
-
-document.body.appendChild(productTable);
-
-async function getProducts() {
-  const response = await fetch(serverURL);
-  const products = await response.json();
-  console.log(products);
-  if (response.status == 200) {
-    console.log("The request was successful");
-  } else {
-    console.log(`Something went wrong! Status code: ${response.status}`);
-  }
-  displayProducts(products);
-}
-
-async function getProductImage() {
-  const response = await fetch(`${serverURL}/${productId}`);
-  const blob = await response.blob();
-  const imageUrl = URL.createObjectURL(blob);
-  return imageUrl;
-}
-
-// displayProducts();
-
-function displayProducts(products) {
-  let tableContent = `
-        <tr>
-            <th>Id</th>
-            <th>Product name</th>
-            <th>Product category</th>
-            <th>Product image</th>
-            <th>Product price</th>
-            <th>Product quantity</th>
-        </tr>
-        `;
-
-  products.forEach((product) => {
-    const blob = new Blob([product.productImage], { type: "image/png" });
-    const blobURL = URL.createObjectURL(blob);
-    console.log(product.productImage);
-    tableContent += `<tr>
-            <td>${product.id}</td> 
-            <td>${product.productName}</td>
-            <td>${product.productCategory}</td>
-            <td><img src="${blobURL}" alt="${product.productName}" style="width:100px;"></td>
-            <td>${product.productPrice}</td>
-            <td>${product.productQuantity}</td>
-        </tr>
-        `;
-  });
-
-  document.getElementById("table").innerHTML = tableContent;
-}
-
-//<p class="card-text">Product Image: ${product.productImage} </p>
-
 // NY fetch funktion för att kunna visa allt i databasen i cards
-
-function fetchProducts() {
-    fetch(serverURL)
+function fetchProducts(e) {
+  fetch(serverURL)
   .then((result) => result.json())
   .then((products) => {
     if (products.length > 0) {
@@ -81,16 +22,15 @@ function fetchProducts() {
                             <li class="list-group-item">Category: ${product.productCategory}</li>
                             <li class="list-group-item">Product id: ${product.productID}</li>
                         </ul>
-                        <div>
-                            <button type="button" class="btn btn-warning mt-2" id="updateBtn-${product.productID}">Update</button>
-                            <button type="button" class="btn btn-danger mt-2" id="deleteBtn-${product.productID}">Delete</button>
+                        <div> 
+                            <button type="button" class="btn btn-warning mt-2" data-bs-toggle="modal" data-bs-target="#submitModal" id="updateBtn-${product.productID}">Update</button>
+                            <button type="button" class="btn btn-danger mt-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="deleteBtn-${product.productID}">Delete</button>
                         </div>
-                    </div>
+                    </div> 
                 </div>
             </div>`;
       }); 
 
-  
       html += `</div>`; 
 
       const cardSection = document.getElementById("card-section");
@@ -110,31 +50,15 @@ function fetchProducts() {
                 });
                 card.classList.add('open');
                 card.classList.remove('card-hover');
-            }
-        });
-    });
-
-      products.forEach((product) => {
-        const updateButton = document.getElementById(`updateBtn-${product.productID}`);
-        updateButton.addEventListener("click", () => {
-            updateModal(product);
-            });
-    
-        const deleteButton = document.getElementById(`deleteBtn-${product.productID}`);
-        deleteButton.addEventListener("click", () => {
-            handleDelete(product.productID);
-            });
-        });
+              }
+          });
+      });
     }
   });
 }
 
 fetchProducts();
  
-
-
-
-
 userForm.addEventListener("submit", handleSubmit);
 
 function handleSubmit(e) {
@@ -152,9 +76,9 @@ function handleSubmit(e) {
   serverObject.productCategory = userForm.productCategory.value;
   serverObject.productPrice = userForm.productPrice.value;
   serverObject.productQuantity = userForm.productQuantity.value;
-
+  // Test
   console.log(serverObject); 
-
+  
   const request = new Request(serverURL, {
     method: "POST",
     headers: {
@@ -168,65 +92,119 @@ function handleSubmit(e) {
     userForm.reset();
   });
 }
+// THOMAS EXPERIMENT KOD
+// function handleSubmit(e) {
+//   e.preventDefault(e);
+//   // Test
+//   console.log(userForm.productName.value);
+//   const serverObject = {
+//     productName: "",
+//     productCategory: "",
+//     productPrice: "",
+//     productQuantity: "",
+//   };
 
-function updateModal(product) {
-  console.log("updateModal function called");
-  const updateModal = document.querySelector('#updateModal');
+//   serverObject.productName = userForm.productName.value;
+//   serverObject.productCategory = userForm.productCategory.value;
+//   serverObject.productPrice = userForm.productPrice.value;
+//   serverObject.productQuantity = userForm.productQuantity.value;
+//   // Test
+//   console.log(serverObject); 
+  
+//   const id = localStorage.getItem("currentProductID");
+//   if (id) {
+//     serverObject.productID = id;
+//   }
 
-  document.getElementById('updatedProductName').value = product.productName;
-  document.getElementById('updatedProductCategory').value = product.productCategory;
-  document.getElementById('updatedProductPrice').value = product.productPrice;
-  document.getElementById('updatedProductQuantity').value = product.productQuantity;
+//   const request = new Request(serverURL, {
+//     method: serverObject.productID ? "PUT" : "POST",
+//     headers: {
+//       "content-type" : "application/json",
+//     },
+//     body: JSON.stringify(serverObject)
+//   });
 
-  updateModal.show();
+//   fetch(request).then((response) => {
+//     fetchProducts();
+//     localStorage.removeItem("currentProductID");
+//     userForm.reset();
+//   });
+// }
+// THOMAS EXPERIMENT KOD SLUT
+
+//MIKAELAS KOD
+// function setCurrentUser(id) {
+//   console.log('current', id);
+
+//   fetch(`${url}/${id}`)
+//     .then((result) => result.json())
+//     .then((user) => {
+//       console.log(user);
+//       userForm.firstName.value = user.firstName;
+//       userForm.lastName.value = user.lastName;
+//       userForm.color.value = user.color;
+//       userForm.username.value = user.username;
+
+//       localStorage.setItem('currentId', user.id);
+//     });
+// }
+
+// userForm.addEventListener('submit', handleSubmit);
+
+// function handleSubmit(e) {
+//   e.preventDefault();
+//   const serverUserObject = {
+//     firstName: '',
+//     lastName: '',
+//     username: '',
+//     color: ''
+//   };
+//   serverUserObject.firstName = userForm.firstName.value;
+//   serverUserObject.lastName = userForm.lastName.value;
+//   serverUserObject.username = userForm.username.value;
+//   serverUserObject.color = userForm.color.value;
+
+//   const id = localStorage.getItem('currentId');
+//   if (id) {
+//     serverUserObject.id = id;
+//   }
+
+//   const request = new Request(url, {
+//     method: serverUserObject.id ? 'PUT' : 'POST',
+//     headers: {
+//       'content-type': 'application/json'
+//     },
+//     body: JSON.stringify(serverUserObject)
+//   }); 
+
+//   fetch(request).then((response) => {
+//     fetchData();
+
+//     localStorage.removeItem('currentId');
+//     userForm.reset();
+//   });
+// }
+//MIKAELAS KOD SLUT
+
+userForm.addEventListener("click", handleClear());
+
+function handleClear() { 
+  userForm.productName.value  = " ";
+  userForm.productCategory.value  = " ";
+  userForm.productPrice.value  = " ";
+  userForm.productQuantity.value = " ";
 }
 
-function handleUpdate(productId) {
-  // Fetch the product data from the database
-  fetch(`${serverURL}/${productId}`)
-    .then((response) => response.json())
-    .then((productData) => {
-      // Update the product information in the modal form
-      document.getElementById('updatedProductName').value = productData.productName;
-      document.getElementById('updatedProductCategory').value = productData.productCategory;
-      document.getElementById('updatedProductPrice').value = productData.productPrice;
-      document.getElementById('updatedProductQuantity').value = productData.productQuantity;
+const deleteButton = document.querySelector("#deleteBtn");
+deleteButton.addEventListener("click", handleDelete());
 
-      // Update the product in the backend
-      const updatedProduct = {
-        productID: productData.productID,
-        productName: document.getElementById('updatedProductName').value,
-        productCategory: document.getElementById('updatedProductCategory').value,
-        productPrice: document.getElementById('updatedProductPrice').value,
-        productQuantity: document.getElementById('updatedProductQuantity').value,
-      };
+console.log(deleteButton);
 
-      const request = new Request(serverURL, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedProduct)
-      });
+function handleDelete(productID) { 
+  console.log(productID);
+  fetch(`${serverURL}/${productID}`, {method: `DELETE`})
+  .then((result) => fetchProducts());
+  
+  
 
-      fetch(request).then((response) => {
-        fetchProducts();
-        userForm.reset();
-      });
-    });
 }
-
-
-function handleDelete(e,productID) {
-  console.log('delete', id);
-  console.log(e);
-  fetch(`${url}/${productID}`, {method: `DELETE`})
-  .then((result) => fetchProducts());  
-}
-
-
-const tc = window.innerHeight / 2 - $('.item').height() / 2 - $(this.closest('.item')).offset().top;
-const lc = window.innerWidth / 2 - $('.item').width() / 2 - $(this.closest('.item')).offset().left;
-
-document.documentElement.style.setProperty('--top-calc', `${tc}px`);
-document.documentElement.style.setProperty('--left-calc', `${lc}px`);
