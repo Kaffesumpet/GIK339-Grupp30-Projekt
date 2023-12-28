@@ -24,7 +24,7 @@ function fetchProducts(e) {
                         </ul>
                         <div> 
                             <button type="button" class="btn btn-warning mt-2" data-bs-toggle="modal" data-bs-target="#submitModal" id="updateBtn-${product.productID}">Update</button>
-                            <button type="button" class="btn btn-danger mt-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="deleteBtn-${product.productID}">Delete</button>
+                            <button type="button" class="btn btn-danger mt-2" onclick="handleDelete(${product.productID})" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="deleteBtn-${product.productID}">Delete</button>
                         </div>
                     </div> 
                 </div>
@@ -200,11 +200,46 @@ deleteButton.addEventListener("click", handleDelete());
 
 console.log(deleteButton);
 
+const productID = document.getElementById("deleteBtn-6")
+
+
+// function handleDelete(productID) {
+//   console.log(productID);
+//   fetch(`${serverURL}/${productID}`, { method: 'DELETE' })
+//     .then((response) => {
+//       if (response.ok) {
+//         // Perform actions after successful deletion
+//         fetchProducts() // Assuming fetchProducts returns a Promise
+//           .then(() => {
+//             // Notify user upon successful deletion
+//             showMessage('Product deleted successfully');
+//           })
+//           .catch((fetchError) => {
+//             throw fetchError; // Propagate fetch error
+//           });
+//       } else {
+//         throw new Error('Failed to delete product');
+//       }
+//     })
+//     .catch((error) => {
+//       // Handle errors here
+//       console.error('Error deleting product:', error);
+//       // Notify user about the error
+//       showMessage('Failed to delete product. Please try again.');
+//     });
+// }
+
+// // Function to display a modal to the user
+// function showMessage(message) {
+//   // Set the message in the modal body
+//   document.getElementById('notificationMessage').innerText = message;
+//   // Show the modal
+//   $('#notificationModal').modal('show');
+// }
+
+
 function handleDelete(productID) { 
   console.log(productID);
   fetch(`${serverURL}/${productID}`, {method: `DELETE`})
   .then((result) => fetchProducts());
-  
-  
-
 }
