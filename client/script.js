@@ -162,6 +162,7 @@ function handleSubmit(e) {
     showModal("Error", "An error has occurred!");
   });
 }
+
 // THOMAS EXPERIMENT KOD
 // function handleSubmit(e) {
 //   e.preventDefault(e);
@@ -284,43 +285,7 @@ function showModal(title, message, callback) {
           callback();
       }
   });
-}
-
-// function showModal(operationType, success) {
-//   const modalMessage = document.querySelector("#messageModal .modal-body p");
-//   const modalTitle = document.querySelector("#messageModal .modal-title");
-//   const confirmButton = document.querySelector("#messageModal #confirmBtn");
-
-//   let title = "";
-//   let message = "";
-
-//   switch (operationType) {
-//       case 'POST':
-//           title = success ? "Success!" : "Error";
-//           message = success ? "The product was added to the database!" : "An error has occured!";
-//           break;
-//       case 'PUT':
-//           title = success ? "Success!" : "Error";
-//           message = success ? "The product has been updated!" : "An error has occured!";
-//           break;
-//       case 'DELETE':
-//           title = success ? "Success!" : "Error";
-//           message = success ? "The product has been deleted!" : "An error has occured!";
-//           break;
-//   }
-
-//   modalTitle.textContent = title;
-//   modalMessage.textContent = message;
-
-//   // Visa modalfönstret
-//   var myModal = new bootstrap.Modal(document.getElementById('messageModal'));
-//   myModal.show();
-
-//   // Lägg till en lyssnare på confirmBtn
-//   confirmButton.addEventListener('click', function() {
-//       myModal.hide();
-//   });
-// }  
+} 
 
 const deleteInfo = document.getElementById("staticBackdrop");
 deleteInfo.addEventListener("show.bs.modal", (event) => {
@@ -338,8 +303,8 @@ function handleDelete(productID) {
   deleteConfirmed.addEventListener("click", () => {
     fetch(`${serverURL}/${productID}`, { method: 'DELETE' })
       .then((result) => {
-        fetchProducts();
         confirmationModal.hide();
+        fetchProducts();  
       })
       .catch((error) => {
         console.error("Error deleting product:", error);
@@ -348,7 +313,7 @@ function handleDelete(productID) {
   });
 
   // Handle modal hide event to refresh the page if the delete is not confirmed
-  deleteInfo.addEventListener("hide.bs.modal", () => {
-    window.location.reload();
-  }); 
+  // deleteInfo.addEventListener("hide.bs.modal", () => {
+  //   window.location.reload();
+  // }); 
 }
