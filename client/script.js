@@ -26,7 +26,7 @@ function fetchProducts(e) {
                             <li class="list-group-item">Product id: ${product.productID}</li>
                         </ul>
                         <div> 
-                            <button type="button" class="btn btn-warning mt-2" data-bs-toggle="modal" data-bs-target="#submitModal" id="updateBtn-${product.productID}">Update</button>
+                            <button type="button" class="updateBtn btn btn-warning mt-2" data-bs-toggle="modal" data-bs-target="#submitModal" id="updateBtn-${product.productID}">Update</button>
                             <button type="button" class="btn btn-danger mt-2" onclick="handleDelete(${product.productID})" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="deleteBtn-${product.productID}">Delete</button>
                         </div>
                     </div> 
@@ -121,6 +121,28 @@ hideBtn.addEventListener("click", hideAllProducts);
 //     }
 //   });
 // }
+
+
+// Gör så att bara submitknappen syns på formuläret när man trycker "submit to database"
+// och vice versa för updateknappen på carden.
+document.addEventListener("DOMContentLoaded", () => {
+  const submitButton = document.getElementById("submitBtn");
+  const updateButton = document.getElementById("updateBtn");
+
+  // Event Listener för "Submit to database"-knappen
+  document.getElementById("submitModalButton").addEventListener("click", () => {
+      submitButton.style.display = "block"; // Visa "Submit"-knappen
+      updateButton.style.display = "none"; // Göm "Update"-knappen
+  });
+
+  // Delegated Event Listener för "Update"-knapparna på korten
+  document.body.addEventListener("click", (event) => {
+      if (event.target.classList.contains("updateBtn")) {
+          submitButton.style.display = "none"; // Göm "Submit"-knappen
+          updateButton.style.display = "block"; // Visa "Update"-knappen
+      }
+  });
+});
 
 userForm.addEventListener("submit", handleSubmit);
 
