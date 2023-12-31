@@ -78,6 +78,38 @@ server.post("/products", (req, res) => {
 })
 
 // Put route, uppdaterar en produkt (rad) i databasen beroende på ID't.
+// server.put("/products", (req,res) => {
+//     const bodyData = req.body;
+//     const id = bodyData.productID; 
+//     const product = {
+//         productName: bodyData.productName,
+//         productCategory: bodyData.productCategory,
+//         productPrice: bodyData.productPrice,
+//         productQuantity: bodyData.productQuantity
+//     }; 
+
+//     let updateString = " "; 
+
+//     const productsArray = Object.keys(product);
+//     productsArray.forEach((column, i) => {
+//         updateString += `${column} = "${product[column]}"`;
+//         if (i !== productsArray.length - 1) updateString += ",";
+
+//     });
+//     const sql = `UPDATE products SET ${updateString} WHERE productID = ${id}`
+
+//     db.run(sql, (err) => {
+//         if (err) {
+//             console.log(err);
+//             res.status(500).send(err);  
+//         } else {
+//             res.send("The product has been updated");
+//         }
+//     });
+// })
+
+// Ny Put route som använder placeholders för att undvika SQL injektioner, 
+// uppdaterar en produkt (rad) i databasen beroende på ID't.
 server.put("/products", (req,res) => {
     const bodyData = req.body;
     const id = bodyData.productID; 
@@ -88,17 +120,18 @@ server.put("/products", (req,res) => {
         productQuantity: bodyData.productQuantity
     }; 
 
-    let updateString = " "; 
+    let updateString = ""; 
 
     const productsArray = Object.keys(product);
     productsArray.forEach((column, i) => {
-        updateString += `${column} = "${product[column]}"`;
+        updateString += `${column} = ?`;
         if (i !== productsArray.length - 1) updateString += ",";
-
     });
-    const sql = `UPDATE products SET ${updateString} WHERE id = ${id}`
 
-    db.run(sql, (err) => {
+    const sql = `UPDATE products SET ${updateString} WHERE productID = ?`;
+    const values = [...Object.values(product), id];
+
+    db.run(sql, values, (err) => {
         if (err) {
             console.log(err);
             res.status(500).send(err);  
@@ -106,7 +139,7 @@ server.put("/products", (req,res) => {
             res.send("The product has been updated");
         }
     });
-})
+});
 
 //Delete route, tar bort en produkt (rad) i databasen, beroende på ID't.
 // server.delete("/products/:id", (req,res) => {

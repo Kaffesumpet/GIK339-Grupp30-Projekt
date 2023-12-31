@@ -1,6 +1,6 @@
 const serverURL = "http://localhost:3000/products";
 
-const hideProductsBtn = document.getElementById("hideAllBtn");
+// const hideProductsBtn = document.getElementById("hideAllBtn");
 
 
 // NY fetch funktion för att kunna visa allt i databasen i cards
@@ -26,7 +26,7 @@ function fetchProducts(e) {
                             <li class="list-group-item">Product id: ${product.productID}</li>
                         </ul>
                         <div> 
-                            <button type="button" class="updateBtn btn btn-warning mt-2" data-bs-toggle="modal" data-bs-target="#submitModal" id="updateBtn-${product.productID}">Update</button>
+                            <button type="button" class="updateBtn btn btn-warning mt-2" data-bs-toggle="modal" data-bs-target="#submitModal" data-product-id="${product.productID}">Update</button>
                             <button type="button" class="btn btn-danger mt-2" onclick="handleDelete(${product.productID})" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="deleteBtn-${product.productID}">Delete</button>
                         </div>
                     </div> 
@@ -37,12 +37,23 @@ function fetchProducts(e) {
       html += `</div>`; 
 
       const cardSection = document.getElementById("card-section");
-      cardSection.innerHTML = " ";
-      cardSection.insertAdjacentHTML("beforeend", html);
+      cardSection.innerHTML = html;
+      // cardSection.insertAdjacentHTML("beforeend", html);
+      
+      // Gör så att bara "update"-knappen syns på formuläret när man trycker "Update" på cardsen,
+      // såväl som hämtar ID't för varje produkt och lägger in i formuläret.
+      document.querySelectorAll('.updateBtn').forEach(button => {
+        button.addEventListener('click', (event) => {
+          const productId = event.target.getAttribute('data-product-id');
+          document.getElementById('inputProductID').value = productId;
+          document.getElementById('submitModalLabel').textContent = 'Update Product';
+          document.getElementById('submitBtn').style.display = "none";
+          document.getElementById('updateBtn').style.display = "block";
+        });
+      });
 
       var elementCards = document.querySelectorAll('.card');
-
-      hideProductsBtn.removeAttribute("hidden");
+      // hideProductsBtn.removeAttribute("hidden");
 
       elementCards.forEach(function (card) {
         card.addEventListener('click', function () {
@@ -62,18 +73,30 @@ function fetchProducts(e) {
   });
 }
 
-const showBtn = document.getElementById("showAllBtn");
+fetchProducts();
 
-showBtn.addEventListener("click", fetchProducts);
+// Gör så att bara submitknappen syns på formuläret när man trycker "submit to database".
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("submitModalButton").addEventListener("click", () => {
+    document.getElementById('submitModalLabel').textContent = 'Submit New Product';
+    document.getElementById('inputProductID').value = ''; // Rensa produkt-ID
+    document.getElementById('submitBtn').style.display = "block";
+    document.getElementById('updateBtn').style.display = "none";
+  });
+});
 
-const cardSection = document.getElementById("cardSection")
-function hideAllProducts() {
-  cardSection.replaceChildren = "";
-}
+// const showBtn = document.getElementById("showAllBtn");
 
-const hideBtn = document.getElementById("hideAllBtn");
+// showBtn.addEventListener("click", fetchProducts);
 
-hideBtn.addEventListener("click", hideAllProducts);
+// const cardSection = document.getElementById("cardSection")
+// function hideAllProducts() {
+//   cardSection.replaceChildren = "";
+// }
+
+// const hideBtn = document.getElementById("hideAllBtn");
+
+// hideBtn.addEventListener("click", hideAllProducts);
 
 //fetchProducts();
  
@@ -122,64 +145,96 @@ hideBtn.addEventListener("click", hideAllProducts);
 //   });
 // }
 
-
-// Gör så att bara submitknappen syns på formuläret när man trycker "submit to database"
-// och vice versa för updateknappen på carden.
-document.addEventListener("DOMContentLoaded", () => {
-  const submitButton = document.getElementById("submitBtn");
-  const updateButton = document.getElementById("updateBtn");
-
-  // Event Listener för "Submit to database"-knappen
-  document.getElementById("submitModalButton").addEventListener("click", () => {
-      submitButton.style.display = "block"; // Visa "Submit"-knappen
-      updateButton.style.display = "none"; // Göm "Update"-knappen
-  });
-
-  // Delegated Event Listener för "Update"-knapparna på korten
-  document.body.addEventListener("click", (event) => {
-      if (event.target.classList.contains("updateBtn")) {
-          submitButton.style.display = "none"; // Göm "Submit"-knappen
-          updateButton.style.display = "block"; // Visa "Update"-knappen
-      }
-  });
-});
-
 userForm.addEventListener("submit", handleSubmit);
 
+// function handleSubmit(e) {
+//   console.log("Form submitted!");
+//   e.preventDefault();
+
+//   const serverObject = {
+//     productName: userForm.productName.value,
+//     productCategory: userForm.productCategory.value,
+//     productPrice: userForm.productPrice.value,
+//     productQuantity: userForm.productQuantity.value,
+//   };
+
+//   fetch(serverURL, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(serverObject),
+//   })
+//   .then(response => {
+//     if (response.ok) {
+//       return response.json(); // Om allt går bra, returnera JSON-svaret
+//     } else {
+//       throw new Error('Network response was not ok.'); // Kasta ett fel om responsen inte är OK
+//     }
+//   })
+//   .then(data => {
+//     // Visa en bekräftelsemodal om allt gick bra
+//     showModal("Success!", "The product was added to the database!", function() {
+//       fetchProducts();
+//       userForm.reset();
+//     });
+//   })
+//   .catch(error => {
+//     // Visa en felmodal om något gick fel
+//     console.error('There was a problem with the fetch operation:', error);
+//     showModal("Error", "An error has occurred!");
+//   });
+// }
+
 function handleSubmit(e) {
-  console.log("Form submitted!");
   e.preventDefault();
 
-  const serverObject = {
-    productName: userForm.productName.value,
-    productCategory: userForm.productCategory.value,
-    productPrice: userForm.productPrice.value,
-    productQuantity: userForm.productQuantity.value,
-  };
+  const productId = userForm.productID.value;
+  let serverObject;
+
+  if (productId) {
+    // För "PUT" - Uppdatera befintlig produkt
+    serverObject = {
+      productName: userForm.productName.value,
+      productCategory: userForm.productCategory.value,
+      productPrice: userForm.productPrice.value,
+      productQuantity: userForm.productQuantity.value,
+      productID: productId
+    };
+  } else {
+    // För "POST" - Skapa ny produkt
+    serverObject = {
+      productName: userForm.productName.value,
+      productCategory: userForm.productCategory.value,
+      productPrice: userForm.productPrice.value,
+      productQuantity: userForm.productQuantity.value
+    };
+  }
+
+  const method = productId ? "PUT" : "POST";
 
   fetch(serverURL, {
-    method: "POST",
+    method: method,
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(serverObject),
   })
   .then(response => {
-    if (response.ok) {
-      return response.json(); // Om allt går bra, returnera JSON-svaret
-    } else {
-      throw new Error('Network response was not ok.'); // Kasta ett fel om responsen inte är OK
+    if (!response.ok) {
+      throw new Error('Network response was not ok.');
     }
+    return response.json();
   })
   .then(data => {
-    // Visa en bekräftelsemodal om allt gick bra
-    showModal("Success!", "The product was added to the database!", function() {
+    const message = method === "PUT" ? "The product was updated in the database!" : "The product was added to the database!";
+    showModal("Success!", message, () => {
       fetchProducts();
       userForm.reset();
+      userForm.productID.value = ''; // Rensa produkt-ID efter uppdatering/skapande
     });
   })
   .catch(error => {
-    // Visa en felmodal om något gick fel
     console.error('There was a problem with the fetch operation:', error);
     showModal("Error", "An error has occurred!");
   });
