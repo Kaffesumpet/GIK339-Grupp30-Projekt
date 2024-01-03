@@ -85,7 +85,7 @@ server.put("/products", (req,res) => {
         productName: bodyData.productName,
         productCategory: bodyData.productCategory,
         productPrice: bodyData.productPrice,
-        productQuantity: bodyData.productAffiliation
+        productAffiliation: bodyData.productAffiliation
     }; 
 
     let updateString = ""; 
@@ -119,7 +119,7 @@ server.delete("/products/:id", (req, res) => {
             console.log(err);
             res.status(500).send(err);
         } else {
-            res.send(`The product with id: ${productID} has successfully been deleted from the database!`);
+            res.send(`The product has successfully been deleted from the database!`);
         } 
     });         
 });
