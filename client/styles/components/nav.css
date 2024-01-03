@@ -1,25 +1,14 @@
-
 .golden-text {
     color: #e29828;
     -webkit-text-stroke: .1rem;
 }
 
 .roman-numerals {
-    margin-right: 1rem;
-    text-decoration: overline underline;
-    font-family: sans-serif;
-}
-
-.roman-numerals::before {
-    top: 50%;
-}
-
-.roman-numerals::after {
-    top: 50%;
+    font-family: Roboto
 }
 
 .nfts-text {
     display: block;
-    font-size: 1.4rem;
+    margin-top: -.5rem;
 }
 

@@ -177,18 +177,12 @@
                 <p class="lead my-3">Add the cards the people would pay the most for! Think stonks! <img src="img/H2Gold.png"></p>
                 <!-- MODAL SUBMIT TO DATABASE KNAPP -->
                 <button  type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#submitModal" id="submitModalButton">
-                    Submit to database
+                    Submit to database 
                 </button>
             </div>
         </div>
-
-        <section class="mb-2" id="">
-            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                <button type="button" class="btn btn-danger btn-lg" id="showAllBtn">Do not press this button!</button>
-                <button hidden="true" type="button" class="btn btn-secondary btn-lg" id="hideAllBtn" >Hide products</button>
-            </div>
-        </section> 
-        <section id="card-section">
+ 
+        <section class="card-section" id="card-section">
             
         </section> 
         
@@ -307,15 +301,22 @@
                             </div>
                             <div class="form-group mt-2">
                                 <label for="productPrice">Price</label>
-                                <input type="text" class="form-control" id="inputProductPrice" placeholder="Enter product price" name ="productPrice">
+                                <input type="number" class="form-control" id="inputProductPrice" placeholder="Enter product price" name ="productPrice">
                             </div>
                             <div class="form-group mt-2">
-                                <label for="exampleInputEmail1">Quantity</label>
-                                <input type="text" class="form-control" id="inputProductQuantity" aria-describedby="" placeholder="Enter product quantity" name ="productQuantity">
+                                <label for="productAffiliation">Affiliation</label>
+                                <select class="form-control" id="inputProductAffiliation" placeholder="Enter product affiliation" name ="productAffiliation">
+                                    <option value="Good">Good</option>
+                                    <option value="Neutral">Neutral</option>
+                                    <option value="Evil">Evil</option>
+                                </select>    
                             </div>
-                            <button type="submit" class="btn btn-primary mt-2" id="submitBtn">Submit</button>
-                            <button type="submit" class="btn btn-warning mt-2" id="updateBtn">Update</button>
-                            <button type="reset" class="btn btn-secondary mt-2">Clear</button>
+                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                <button type="submit" class="btn btn-primary mt-2" id="submitBtn">Submit</button>
+                                <button type="submit" class="btn btn-warning mt-2" id="updateBtn">Update</button>
+                                <button type="reset" class="btn btn-secondary mt-2">Clear</button>
+                            </div>
+                            
                         </form> 
                     </div>
                 </div>
@@ -339,25 +340,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- DELETE MODAL -->
-        <!-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete product</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this product?</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" id="deleteBtn">Confirm Delete</button>
-                </div>
-              </div>
-            </div>
-          </div> -->
-          
 
     </main>
     <div class="b-example-divider"></div>
@@ -469,8 +451,5 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
     <script src="./script.js"></script>
-    <!--<script src="../assets/dist/js/bootstrap.bundle.min.js"></script> -->
 </body>
-
-
 </html>

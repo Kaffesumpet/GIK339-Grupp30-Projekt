@@ -1,11 +1,6 @@
 const serverURL = "http://localhost:3000/products";
 
-const serverURLId = "http://localhost:3000/products/id";
-
-// const hideProductsBtn = document.getElementById("hideAllBtn");
-
-
-// NY fetch funktion för att kunna visa allt i databasen i cards
+// Fetch funktion för att kunna visa allt i databasen i cards
 function fetchProducts(e) {
   fetch(serverURL)
   .then((result) => result.json())
@@ -15,7 +10,7 @@ function fetchProducts(e) {
       products.forEach((product) => {
         html += ` 
             <div class = "col-auto"> 
-                <div class="card card-hover" style="width:190px; height:450px"> 
+                <div class="card card-hover" style="width:200px; height:450px"> 
                     <div class="image-frame">
                         <img class="card-img-top" src="img/products/${product.productName}.webp" alt="Card image">
                     </div>    
@@ -23,12 +18,11 @@ function fetchProducts(e) {
                     <h3 class="card-title">${product.productName}</h3>
                         <ul class="list-group list-group-flush ">
                             <li class="list-group-item">Price: ${product.productPrice}</li>
-                            <li class="list-group-item">Quantity: ${product.productQuantity}</li>
+                            <li class="list-group-item">Affiliation: ${product.productAffiliation}</li>
                             <li class="list-group-item">Faction: ${product.productCategory}</li>
-                            <li class="list-group-item">Product id: ${product.productID}</li>
                         </ul>
                         <div> 
-                            <button type="button" class="updateBtn btn btn-warning mt-2" data-bs-toggle="modal" data-bs-target="#submitModal" data-product-id="${product.productID}">Update</button>
+                            <button type="button" class="updateBtn btn btn-warning mt-2" onclick="fetchSingleProduct(${product.productID})" data-bs-toggle="modal" data-bs-target="#submitModal" data-product-id="${product.productID}">Update</button>
                             <button type="button" class="btn btn-danger mt-2" onclick="handleDelete(${product.productID})" id="deleteBtn-${product.productID}">Delete</button>
                         </div>
                     </div> 
@@ -40,34 +34,32 @@ function fetchProducts(e) {
 
       const cardSection = document.getElementById("card-section");
       cardSection.innerHTML = html;
-      // cardSection.insertAdjacentHTML("beforeend", html);
       
       // Gör så att bara "update"-knappen syns på formuläret när man trycker "Update" på cardsen,
       // såväl som hämtar ID't för varje produkt och lägger in i formuläret.
-      document.querySelectorAll('.updateBtn').forEach(button => {
-        button.addEventListener('click', (event) => {
-          const productId = event.target.getAttribute('data-product-id');
-          document.getElementById('inputProductID').value = productId;
-          document.getElementById('submitModalLabel').textContent = 'Update Product';
-          document.getElementById('submitBtn').style.display = "none";
-          document.getElementById('updateBtn').style.display = "block";
-        });
+      document.querySelectorAll(".updateBtn").forEach(button => {
+        button.addEventListener("click", (event) => {
+          const productId = event.target.getAttribute("data-product-id");
+          document.getElementById("inputProductID").value = productId;
+          document.getElementById("submitModalLabel").textContent = "Update Product";
+          document.getElementById("submitBtn").style.display = "none";
+          document.getElementById("updateBtn").style.display = "block";
+        })
       });
 
-      const elementCards = document.querySelectorAll('.card');
-      // hideProductsBtn.removeAttribute("hidden");
+      const elementCards = document.querySelectorAll(".card");
 
       elementCards.forEach(function (card) {
-        card.addEventListener('click', function () {
-            if (card.classList.contains('open')) {
-                card.classList.remove('open');
-                card.classList.add('card-hover');
+        card.addEventListener("click", function () {
+            if (card.classList.contains("open")) {
+                card.classList.remove("open");
+                card.classList.add("card-hover");
             } else {
                 elementCards.forEach(function (item) {
-                    item.classList.remove('open');
+                    item.classList.remove("open");
                 });
-                card.classList.add('open');
-                card.classList.remove('card-hover');
+                card.classList.add("open");
+                card.classList.remove("card-hover");
               }
           });
       });
@@ -80,34 +72,27 @@ fetchProducts();
 // Gör så att bara submitknappen syns på formuläret när man trycker "submit to database".
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("submitModalButton").addEventListener("click", () => {
-    document.getElementById('submitModalLabel').textContent = 'Submit New Product';
-    document.getElementById('inputProductID').value = ''; // Rensa produkt-ID
-    document.getElementById('submitBtn').style.display = "block";
-    document.getElementById('updateBtn').style.display = "none";
+    document.getElementById("submitModalLabel").textContent = "Submit New Product";
+    document.getElementById("inputProductID").value = ""; // Rensa produkt-ID
+    document.getElementById("submitBtn").style.display = "block";
+    document.getElementById("updateBtn").style.display = "none";
   });
 });
 
-// const showBtn = document.getElementById("showAllBtn");
-
-// showBtn.addEventListener("click", fetchProducts);
-
-// const cardSection = document.getElementById("cardSection")
-// function hideAllProducts() {
-//   cardSection.replaceChildren = "";
-// }
-
-// const hideBtn = document.getElementById("hideAllBtn");
-
-// hideBtn.addEventListener("click", hideAllProducts);
-
 userForm.addEventListener("submit", handleSubmit);
 
-// Fälten som ska visa attribut för en resurs som ligger i databasen
-const productNamField = document.getElementById("inputProductName");
-const productCategoryField = document.getElementById("formSelectProductCategory");
-const productPriceField = document.getElementById("inputProductPrice");
-const productQuantityField = document.getElementById("inputProductQuantity");
+function fetchSingleProduct(productID) {
+  fetch(`${serverURL}/${productID}`, {method: "GET"})
+    .then((result) => result.json())
+    .then((product) => { 
+     // console.log(product);
+      userForm.productName.value = product.productName;
+      userForm.productCategory.value = product.productCategory;
+      userForm.productPrice.value = product.productPrice;
+      userForm.productAffiliation.value = product.productAffiliation;
 
+    })
+};
 
 function handleSubmit(e) {
   e.preventDefault();
@@ -116,25 +101,12 @@ function handleSubmit(e) {
   let serverObject;
 
   if (productId) {
-    // För "PUT" - Uppdatera befintlig produkt
-
-    // Här kan man lägga in så textraderna hämtas från databasen
-    // Och visas i textfälten i formuläret för ändring
-
-/*fetch(serverURLId)
-.then((result) => result.json())
-.then(productId) => {
-
- productNamField.innerHTML = product.productName
- productCategoryField = product.productCategory
- productPriceField = product.productPrice
- productQuantityField = product.productQuantity
-}*/
+    // För "PUT" - Uppdatera produkt  
     serverObject = {
       productName: userForm.productName.value,
       productCategory: userForm.productCategory.value,
       productPrice: userForm.productPrice.value,
-      productQuantity: userForm.productQuantity.value,
+      productAffiliation: userForm.productAffiliation.value,
       productID: productId
     };
   } else {
@@ -143,7 +115,7 @@ function handleSubmit(e) {
       productName: userForm.productName.value,
       productCategory: userForm.productCategory.value,
       productPrice: userForm.productPrice.value,
-      productQuantity: userForm.productQuantity.value
+      productAffiliation: userForm.productAffiliation.value
     };
   }
 
@@ -158,13 +130,11 @@ function handleSubmit(e) {
   })
   .then(response => {
     if (!response.ok) {
-      throw new Error('Network response was not ok.');
+      throw new Error("Network response was not ok.");
     }
-    // return response.json();
     return response.text();
   })  
   .then(responseText => {
-    // const message = method === "PUT" ? "The product was updated in the database!" : "The product was added to the database!";
     showModal("Success!", responseText, () => {
     fetchProducts();
     userForm.reset();
@@ -183,7 +153,7 @@ function handleClear() {
   userForm.productName.value  = " ";
   userForm.productCategory.value  = " ";
   userForm.productPrice.value  = " ";
-  userForm.productQuantity.value = " ";
+  userForm.productAffiliation.value = " ";
 } 
 
 function showModal(title, message, callback) {
@@ -195,29 +165,31 @@ function showModal(title, message, callback) {
   modalMessage.textContent = message;
 
   // Hämtar modalerna
-  const messageModal = new bootstrap.Modal(document.querySelector('#messageModal'));
-  const submitModal = bootstrap.Modal.getInstance(document.querySelector('#submitModal'));
+  const messageModal = new bootstrap.Modal(document.querySelector("#messageModal"));
+  const submitModal = bootstrap.Modal.getInstance(document.querySelector("#submitModal"));
   // Visa bekräftelsemodalen
   messageModal.show();
 
   // Lägg till en lyssnare på confirmBtn
-  confirmButton.addEventListener('click', function() {
+  confirmButton.addEventListener("click", function() {
     // Stänger modalerna & visar produkterna igen.
     messageModal.hide();
-    submitModal.hide();
-      fetchProducts();
-      if (callback) {
-          callback();
-      }
+    if (submitModal) {
+      submitModal.hide();
+    }
+    fetchProducts();
+    if (callback) {
+      callback();
+    }   
   });
 } 
 
 function handleDelete(productID) {
-  console.log('delete', productID);
-  fetch(`${serverURL}/${productID}`, {method: 'DELETE'})
+  console.log("delete", productID);
+  fetch(`${serverURL}/${productID}`, {method: "DELETE"})
     .then(response => {
       if (!response.ok) { 
-        throw new Error('Network response was not ok.');
+        throw new Error("Network response was not ok.");
       }
       return response.text();
     })  
@@ -231,40 +203,3 @@ function handleDelete(productID) {
       showModal("Error", "An error has occurred!");
     });    
 }
-
-/*
-const deleteInfo = document.getElementById("staticBackdrop");
-deleteInfo.addEventListener("show.bs.modal", (event) => {
-  const deleteButton = document.getElementById("deleteBtn");
-  //const productId = document.getElementById('productIdInput').value;
-  
-  deleteButton.addEventListener("click", () => handleDelete(productId));
-});
-
-function handleDelete(productID) {
-  const confirmationModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
-  confirmationModal.show();
-
-  const deleteConfirmed = document.getElementById("deleteBtn");
-  deleteConfirmed.addEventListener("click", () => {
-    fetch(`${serverURL}/${productID}`, { method: 'DELETE' })
-      .then((result) => {
-        confirmationModal.hide();
-        fetchProducts();  
-      })
-      .catch((error) => {
-        console.error("Error deleting product:", error);
-        confirmationModal.hide();
-      });
-  });
-
-  // Handle modal hide event to refresh the page if the delete is not confirmed
-  deleteInfo.addEventListener("hide.bs.modal", () => {
-    //window.location.reload();
-    fetchProducts();
-  }); 
-}
-*/
-
-
-

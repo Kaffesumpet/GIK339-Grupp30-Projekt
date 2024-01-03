@@ -36,23 +36,23 @@ server.get("/products", (req, res) => {
             res.send(rows)
         }
     });
-// db.close();
 })
 
 // Route för att hämta en produkt / rad ur databasen beroende på ID.
 server.get("/products/:id", (req, res) => {
-    const productID = req.params.id;
-    const sql = `SELECT * FROM products WHERE productID = ${productID}`;
-               
-    db.all(sql, (err, rows) => {
+    const productID = req.params.id; 
+    const sql = "SELECT * FROM products WHERE productID =? ";
+
+    db.get(sql, [productID], (err, row) => {
         if (err) {
-            res.status(500).send(err);
+            res.status(500).send(err.message);
+        } else if (row) {
+            res.status(200).json(row);
         } else {
-            res.send(rows[0])
+            res.status(404).send("Product not found");
         }
     });
-// db.close();    
-})
+});
 
 // Post route, lägger till en ny produkt (rad) i databasen. 
 server.post("/products", (req, res) => {
@@ -62,7 +62,7 @@ server.post("/products", (req, res) => {
                              productName, 
                              productCategory,  
                              productPrice, 
-                             productQuantity)
+                             productAffiliation)
                  VALUES
                     (?,?,?,?)`;
     
@@ -74,7 +74,6 @@ server.post("/products", (req, res) => {
             res.send("The product has been successfully saved in the database!") 
         }
     });
-// db.close();  
 })
 
 // Ny Put route som använder placeholders för att undvika SQL injektioner, 
@@ -86,7 +85,7 @@ server.put("/products", (req,res) => {
         productName: bodyData.productName,
         productCategory: bodyData.productCategory,
         productPrice: bodyData.productPrice,
-        productQuantity: bodyData.productQuantity
+        productQuantity: bodyData.productAffiliation
     }; 
 
     let updateString = ""; 
@@ -109,23 +108,6 @@ server.put("/products", (req,res) => {
         } 
     });  
 });
-
-//Delete route, tar bort en produkt (rad) i databasen, beroende på ID't.
-// server.delete("/products/:id", (req,res) => {
-//     const productID = req.params.id;
-//     console.log("Received productID:", productID);
-//     const sql = `DELETE FROM products WHERE productID = ${productID}`;
-
-//     db.run(sql, (err) => {
-//         if (err) {
-//             console.log(err);
-//             res.status(500).send(err);
-//         } else {
-//             res.send(`The product with ${productID} has succesfully been deleted from the database!`);
-//         } 
-//     });         
-// // db.close();
-// });
 
 server.delete("/products/:id", (req, res) => {
     const productID = req.params.id;
