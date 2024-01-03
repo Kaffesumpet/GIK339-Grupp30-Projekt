@@ -1,22 +1,10 @@
-.card-section {
+/* .card-section {
     height: auto;
     width: 80%;
     /* Set the width as a percentage of its container */
-    margin: 0 auto;
-    /* Center the section horizontally */
-}
-
-.card img {
-    display: block;
-    /* Set the image as a block-level element */
-    margin: 0 auto;
-    /* Center the image horizontally */
-    width: 55%;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-
+    /* margin: 0 auto; */
+    /* Center the section horizontally 
+}*/
 
 .card-section {
     display: flex;
@@ -31,26 +19,32 @@
 }
 
 .card {
-    border: 1px solid #e29828 !important;
-    width: calc(95% - 10px);
-    min-height: 275px;
+    border: 0.1rem solid #e29828;
+    width: calc(95% - 1rem);
+    min-height: 27.5rem;
     position: relative;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(33, 37, 41);
+    /* margin-bottom: 0.1rem; */
+    box-shadow: 0 .4rem .8rem rgba(33, 37, 41);
     overflow: hidden;
     background-color: #fff;
     transition: all 0.6s;
     cursor: Pointer;
 }
 
+.card img {
+    display: block;
+    /* Set the image as a block-level element */
+    margin: 0 auto;
+    /* Center the image horizontally */
+    width: 100%;
+}
 
 .image-frame {
     display: flex;
     border: 0.3rem solid #e29828;
     overflow: hidden;
     background-color: rgba(33, 37, 41);
-    height: 50%;
+    height: 40%;
 }
 
 .card-hover:hover {
@@ -59,13 +53,15 @@
 
 .open {
     z-index: 2;
-    box-shadow: 0 16px 16px rgba(33, 37, 41);
+    box-shadow: 0 1.6rem 1.6rem rgba(33, 37, 41);
     transform: scale(1.28);
 
 }
 
 .list-group-item {
-    padding-left: 12px !important;
-    padding-right: 4px !important;
+    margin-top: .7rem;
+    margin-bottom: .7rem;
+    padding-left: 1.2rem;
+    padding-right: .4rem;
     /* Adjust as needed */
 }

@@ -71,42 +71,11 @@ server.post("/products", (req, res) => {
             console.log(err);
             res.status(500).send(err);
         } else {
-            res.send("The product has been saved in the database.") 
+            res.send("The product has been successfully saved in the database!") 
         }
-        });
+    });
 // db.close();  
 })
-
-// Put route, uppdaterar en produkt (rad) i databasen beroende på ID't.
-// server.put("/products", (req,res) => {
-//     const bodyData = req.body;
-//     const id = bodyData.productID; 
-//     const product = {
-//         productName: bodyData.productName,
-//         productCategory: bodyData.productCategory,
-//         productPrice: bodyData.productPrice,
-//         productQuantity: bodyData.productQuantity
-//     }; 
-
-//     let updateString = " "; 
-
-//     const productsArray = Object.keys(product);
-//     productsArray.forEach((column, i) => {
-//         updateString += `${column} = "${product[column]}"`;
-//         if (i !== productsArray.length - 1) updateString += ",";
-
-//     });
-//     const sql = `UPDATE products SET ${updateString} WHERE productID = ${id}`
-
-//     db.run(sql, (err) => {
-//         if (err) {
-//             console.log(err);
-//             res.status(500).send(err);  
-//         } else {
-//             res.send("The product has been updated");
-//         }
-//     });
-// })
 
 // Ny Put route som använder placeholders för att undvika SQL injektioner, 
 // uppdaterar en produkt (rad) i databasen beroende på ID't.
@@ -135,10 +104,10 @@ server.put("/products", (req,res) => {
         if (err) {
             console.log(err);
             res.status(500).send(err);  
-        } else {
-            res.send("The product has been updated");
-        }
-    });
+        } else { 
+            res.send("The product has been successfully updated!");
+        } 
+    });  
 });
 
 //Delete route, tar bort en produkt (rad) i databasen, beroende på ID't.
@@ -168,7 +137,7 @@ server.delete("/products/:id", (req, res) => {
             console.log(err);
             res.status(500).send(err);
         } else {
-            res.send(`The product with ${productID} has successfully been deleted from the database!`);
+            res.send(`The product with id: ${productID} has successfully been deleted from the database!`);
         } 
     });         
 });

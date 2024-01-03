@@ -1,5 +1,7 @@
 const serverURL = "http://localhost:3000/products";
 
+const serverURLId = "http://localhost:3000/products/id";
+
 // const hideProductsBtn = document.getElementById("hideAllBtn");
 
 
@@ -27,7 +29,7 @@ function fetchProducts(e) {
                         </ul>
                         <div> 
                             <button type="button" class="updateBtn btn btn-warning mt-2" data-bs-toggle="modal" data-bs-target="#submitModal" data-product-id="${product.productID}">Update</button>
-                            <button type="button" class="btn btn-danger mt-2" onclick="handleDelete(${product.productID})" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="deleteBtn-${product.productID}">Delete</button>
+                            <button type="button" class="btn btn-danger mt-2" onclick="handleDelete(${product.productID})" id="deleteBtn-${product.productID}">Delete</button>
                         </div>
                     </div> 
                 </div>
@@ -52,7 +54,7 @@ function fetchProducts(e) {
         });
       });
 
-      var elementCards = document.querySelectorAll('.card');
+      const elementCards = document.querySelectorAll('.card');
       // hideProductsBtn.removeAttribute("hidden");
 
       elementCards.forEach(function (card) {
@@ -98,93 +100,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // hideBtn.addEventListener("click", hideAllProducts);
 
-//fetchProducts();
- 
-// userForm.addEventListener("submit", handleSubmit);
-
-// function handleSubmit(e) {
-//   e.preventDefault(e);
-//   // Test
-//   console.log(userForm.productName.value);
-//   const serverObject = {
-//     productName: "",
-//     productCategory: "",
-//     productPrice: "",
-//     productQuantity: "",
-//   };
-
-//   serverObject.productName = userForm.productName.value;
-//   serverObject.productCategory = userForm.productCategory.value;
-//   serverObject.productPrice = userForm.productPrice.value;
-//   serverObject.productQuantity = userForm.productQuantity.value;
-//   // Test
-//   console.log(serverObject); 
-  
-//   const request = new Request(serverURL, {
-//     method: "POST",
-//     headers: {
-//       "content-type": "application/json",
-//     },
-//     body: JSON.stringify(serverObject),
-//   });
-
-//   // fetch(request).then((response) => {
-//   //   fetchProducts();
-//   //   userForm.reset();
-//   // });
-
-//   fetch(request).then((response) => {
-//     if (response.ok) {
-//         showModal("Success!", "The product was added to the database!", function() {
-//             fetchProducts();
-//             userForm.reset();
-//         });
-//     } else {
-//         showModal("Error", "An error has occured!");
-//     }
-//   });
-// }
-
 userForm.addEventListener("submit", handleSubmit);
 
-// function handleSubmit(e) {
-//   console.log("Form submitted!");
-//   e.preventDefault();
+// Fälten som ska visa attribut för en resurs som ligger i databasen
+const productNamField = document.getElementById("inputProductName");
+const productCategoryField = document.getElementById("formSelectProductCategory");
+const productPriceField = document.getElementById("inputProductPrice");
+const productQuantityField = document.getElementById("inputProductQuantity");
 
-//   const serverObject = {
-//     productName: userForm.productName.value,
-//     productCategory: userForm.productCategory.value,
-//     productPrice: userForm.productPrice.value,
-//     productQuantity: userForm.productQuantity.value,
-//   };
-
-//   fetch(serverURL, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(serverObject),
-//   })
-//   .then(response => {
-//     if (response.ok) {
-//       return response.json(); // Om allt går bra, returnera JSON-svaret
-//     } else {
-//       throw new Error('Network response was not ok.'); // Kasta ett fel om responsen inte är OK
-//     }
-//   })
-//   .then(data => {
-//     // Visa en bekräftelsemodal om allt gick bra
-//     showModal("Success!", "The product was added to the database!", function() {
-//       fetchProducts();
-//       userForm.reset();
-//     });
-//   })
-//   .catch(error => {
-//     // Visa en felmodal om något gick fel
-//     console.error('There was a problem with the fetch operation:', error);
-//     showModal("Error", "An error has occurred!");
-//   });
-// }
 
 function handleSubmit(e) {
   e.preventDefault();
@@ -194,6 +117,19 @@ function handleSubmit(e) {
 
   if (productId) {
     // För "PUT" - Uppdatera befintlig produkt
+
+    // Här kan man lägga in så textraderna hämtas från databasen
+    // Och visas i textfälten i formuläret för ändring
+
+/*fetch(serverURLId)
+.then((result) => result.json())
+.then(productId) => {
+
+ productNamField.innerHTML = product.productName
+ productCategoryField = product.productCategory
+ productPriceField = product.productPrice
+ productQuantityField = product.productQuantity
+}*/
     serverObject = {
       productName: userForm.productName.value,
       productCategory: userForm.productCategory.value,
@@ -212,7 +148,7 @@ function handleSubmit(e) {
   }
 
   const method = productId ? "PUT" : "POST";
-
+  
   fetch(serverURL, {
     method: method,
     headers: {
@@ -224,115 +160,22 @@ function handleSubmit(e) {
     if (!response.ok) {
       throw new Error('Network response was not ok.');
     }
-    return response.json();
-  })
-  .then(data => {
-    const message = method === "PUT" ? "The product was updated in the database!" : "The product was added to the database!";
-    showModal("Success!", message, () => {
-      fetchProducts();
-      userForm.reset();
-      userForm.productID.value = ''; // Rensa produkt-ID efter uppdatering/skapande
+    // return response.json();
+    return response.text();
+  })  
+  .then(responseText => {
+    // const message = method === "PUT" ? "The product was updated in the database!" : "The product was added to the database!";
+    showModal("Success!", responseText, () => {
+    fetchProducts();
+    userForm.reset();
+    userForm.productID.value = ''; // Rensa produkt-ID efter uppdatering/skapande
     });
-  })
+  }) 
   .catch(error => {
-    console.error('There was a problem with the fetch operation:', error);
+    console.error("There was a problem with the fetch operation:", error);
     showModal("Error", "An error has occurred!");
   });
 }
-
-// THOMAS EXPERIMENT KOD
-// function handleSubmit(e) {
-//   e.preventDefault(e);
-//   // Test
-//   console.log(userForm.productName.value);
-//   const serverObject = {
-//     productName: "",
-//     productCategory: "",
-//     productPrice: "",
-//     productQuantity: "",
-//   };
-
-//   serverObject.productName = userForm.productName.value;
-//   serverObject.productCategory = userForm.productCategory.value;
-//   serverObject.productPrice = userForm.productPrice.value;
-//   serverObject.productQuantity = userForm.productQuantity.value;
-//   // Test
-//   console.log(serverObject); 
-  
-//   const id = localStorage.getItem("currentProductID");
-//   if (id) {
-//     serverObject.productID = id;
-//   }
-
-//   const request = new Request(serverURL, {
-//     method: serverObject.productID ? "PUT" : "POST",
-//     headers: {
-//       "content-type" : "application/json",
-//     },
-//     body: JSON.stringify(serverObject)
-//   });
-
-//   fetch(request).then((response) => {
-//     fetchProducts();
-//     localStorage.removeItem("currentProductID");
-//     userForm.reset();
-//   });
-// }
-// THOMAS EXPERIMENT KOD SLUT
-
-//MIKAELAS KOD
-// function setCurrentUser(id) {
-//   console.log('current', id);
-
-//   fetch(`${url}/${id}`)
-//     .then((result) => result.json())
-//     .then((user) => {
-//       console.log(user);
-//       userForm.firstName.value = user.firstName;
-//       userForm.lastName.value = user.lastName;
-//       userForm.color.value = user.color;
-//       userForm.username.value = user.username;
-
-//       localStorage.setItem('currentId', user.id);
-//     });
-// }
-
-// userForm.addEventListener('submit', handleSubmit);
-
-// function handleSubmit(e) {
-//   e.preventDefault();
-//   const serverUserObject = {
-//     firstName: '',
-//     lastName: '',
-//     username: '',
-//     color: ''
-//   };
-//   serverUserObject.firstName = userForm.firstName.value;
-//   serverUserObject.lastName = userForm.lastName.value;
-//   serverUserObject.username = userForm.username.value;
-//   serverUserObject.color = userForm.color.value;
-
-//   const id = localStorage.getItem('currentId');
-//   if (id) {
-//     serverUserObject.id = id;
-//   }
-
-//   const request = new Request(url, {
-//     method: serverUserObject.id ? 'PUT' : 'POST',
-//     headers: {
-//       'content-type': 'application/json'
-//     },
-//     body: JSON.stringify(serverUserObject)
-//   }); 
-
-//   fetch(request).then((response) => {
-//     fetchData();
-
-//     localStorage.removeItem('currentId');
-//     userForm.reset();
-//   });
-// }
-//MIKAELAS KOD SLUT
 
 userForm.addEventListener("click", handleClear());
 
@@ -341,7 +184,7 @@ function handleClear() {
   userForm.productCategory.value  = " ";
   userForm.productPrice.value  = " ";
   userForm.productQuantity.value = " ";
-}
+} 
 
 function showModal(title, message, callback) {
   const modalMessage = document.querySelector("#messageModal .modal-body p");
@@ -351,23 +194,49 @@ function showModal(title, message, callback) {
   modalTitle.textContent = title;
   modalMessage.textContent = message;
 
-  // Visa modalfönstret
-  var myModal = new bootstrap.Modal(document.getElementById('messageModal'));
-  myModal.show();
+  // Hämtar modalerna
+  const messageModal = new bootstrap.Modal(document.querySelector('#messageModal'));
+  const submitModal = bootstrap.Modal.getInstance(document.querySelector('#submitModal'));
+  // Visa bekräftelsemodalen
+  messageModal.show();
 
   // Lägg till en lyssnare på confirmBtn
   confirmButton.addEventListener('click', function() {
-      myModal.hide();
+    // Stänger modalerna & visar produkterna igen.
+    messageModal.hide();
+    submitModal.hide();
+      fetchProducts();
       if (callback) {
           callback();
       }
   });
 } 
 
+function handleDelete(productID) {
+  console.log('delete', productID);
+  fetch(`${serverURL}/${productID}`, {method: 'DELETE'})
+    .then(response => {
+      if (!response.ok) { 
+        throw new Error('Network response was not ok.');
+      }
+      return response.text();
+    })  
+    .then(responseText => {
+      showModal("Success!", responseText, () => {
+      fetchProducts();
+      });
+    }) 
+    .catch(error => {
+      console.error("There was a problem with the fetch operation:", error);
+      showModal("Error", "An error has occurred!");
+    });    
+}
+
+/*
 const deleteInfo = document.getElementById("staticBackdrop");
 deleteInfo.addEventListener("show.bs.modal", (event) => {
-  const deleteButton = document.getElementById("deleteButton");
-  const productId = document.getElementById('productIdInput').value;
+  const deleteButton = document.getElementById("deleteBtn");
+  //const productId = document.getElementById('productIdInput').value;
   
   deleteButton.addEventListener("click", () => handleDelete(productId));
 });
@@ -390,7 +259,12 @@ function handleDelete(productID) {
   });
 
   // Handle modal hide event to refresh the page if the delete is not confirmed
-  // deleteInfo.addEventListener("hide.bs.modal", () => {
-  //   window.location.reload();
-  // }); 
+  deleteInfo.addEventListener("hide.bs.modal", () => {
+    //window.location.reload();
+    fetchProducts();
+  }); 
 }
+*/
+
+
+
