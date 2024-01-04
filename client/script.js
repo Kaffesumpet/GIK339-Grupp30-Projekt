@@ -6,7 +6,7 @@ function fetchProducts(e) {
   .then((result) => result.json())
   .then((products) => {
     if (products.length > 0) {
-      let html = `<div class="container-fluid row g-4">`;
+      let html = `<div class="container-fluid center row g-4">`;
       products.forEach((product) => {
         html += ` 
             <div class = "col-auto"> 
