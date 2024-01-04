@@ -12,7 +12,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png" />
     <link rel="stylesheet" href="./styles/styles.css">
     <link rel="stylesheet" href="./styles/components/card.css">
-    <link rel="stylesheet" href="./styles/components/nav.css">
+    <link rel="stylesheet" href="./styles/components/logo.css">
     <link href="./assets/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -160,23 +160,25 @@
                     <option value="11">Factory (not implemented)</option>
                 </select>
             </div>
-        </div>   
+        </div>
     </header>
 
     <main>
         <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
             <div class="col-lg-6 px-0">
                 <h1 class="display-4 fst-italic">Craft your NFT!</h1>
-                <p class="lead my-3">Add the cards the people would pay the most for! Think stonks! <img src="img/H2Gold.png"></p>
+                <p class="lead my-3">Add the cards the people would pay the most for! Think stonks! <img
+                        src="img/H2Gold.png"></p>
                 <!-- MODAL SUBMIT TO DATABASE KNAPP -->
-                <button  type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#submitModal" id="submitModalButton">
-                    Submit to database 
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#submitModal"
+                    id="submitModalButton">
+                    Submit to database
                 </button>
             </div>
         </div>
- 
-        <section class="card-section" id="card-section"></section> 
-    
+
+        <section class="card-section" id="card-section"></section>
+
         <!--MODALS-->
         <!-- SUBMIT MODAL -->
         <div class="modal fade" id="submitModal" tabindex="-1" aria-labelledby="submitModalLabel" aria-hidden="true">
@@ -187,8 +189,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id = "userForm">
-                            <input type="hidden" id="inputProductID" name="productID"> 
+                        <form id="userForm">
+                            <input type="hidden" id="inputProductID" name="productID">
                             <div class="form-group mt-2">
                                 <label for="productName">Creature Name</label>
                                 <select class="form-control" id="inputProductName" name="productName">
@@ -271,7 +273,8 @@
                                     <option value="Psychic Elemental">Psychic Elemental</option>
                                     <option value="Firebird">Firebird</option>
                                 </select>
-                                <input type="text" class="form-control mt-2" id="otherProductName" aria-describedby="" placeholder="Enter product name" name="otherProductName" style="display: none;">
+                                <input type="text" class="form-control mt-2" id="otherProductName" aria-describedby=""
+                                    placeholder="Enter product name" name="otherProductName" style="display: none;">
                             </div>
                             <div class="form-group mt-2">
                                 <label for="productCategory">Faction-Category</label>
@@ -291,37 +294,40 @@
                             </div>
                             <div class="form-group mt-2">
                                 <label for="productPrice">Price</label>
-                                <input type="number" class="form-control" id="inputProductPrice" placeholder="Enter product price" name ="productPrice">
+                                <input type="number" class="form-control" id="inputProductPrice"
+                                    placeholder="Enter product price" name="productPrice">
                             </div>
                             <div class="form-group mt-2">
                                 <label for="productAffiliation">Affiliation</label>
-                                <select class="form-control" id="inputProductAffiliation" placeholder="Enter product affiliation" name ="productAffiliation">
+                                <select class="form-control" id="inputProductAffiliation"
+                                    placeholder="Enter product affiliation" name="productAffiliation">
                                     <option value="Good">Good</option>
                                     <option value="Neutral">Neutral</option>
                                     <option value="Evil">Evil</option>
-                                </select>    
+                                </select>
                             </div>
                             <div class="d-flex flex-wrap gap-2">
                                 <button type="submit" class="btn btn-primary mt-2" id="submitBtn">Submit</button>
                                 <button type="submit" class="btn btn-warning mt-2" id="updateBtn">Update</button>
                                 <button type="reset" class="btn btn-secondary mt-2" id="clearBtn">Clear</button>
                             </div>
-                            
-                        </form> 
+
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- MESSAGE MODAL -->
-        <div class="modal fade" id="messageModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal fade" id="messageModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="messageModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="messageModalLabel"></h1>
                     </div>
                     <div class="modal-body">
-                        <p></p> 
+                        <p></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" id="confirmBtn">Got it!</button>
@@ -433,4 +439,5 @@
         crossorigin="anonymous"></script>
     <script src="./script.js"></script>
 </body>
+
 </html>
