@@ -1,12 +1,12 @@
 TO DO LIST:
 
-1. Se till så att response-objekten är döpta efter samma namnkonvention, nu blandas det lite mellan result / response.
+1. Se till så att response-objekten är döpta efter samma namnkonvention, nu blandas det lite mellan result / response. - Klart, fixat av Filip och Mona
 
 2. Är hela hemsidan responsiv?
 
-3. Blandar try-catch och if och else, ska vi ändra?
+3. Blandar try-catch och if och else, ska vi ändra? - Fixat av Filip och Mona. Vi har try/catch på script sidan och if else på server sidan.
 
-4. Kolla igenom alla fnuttar så att det är "" konsekvent.
+4. Kolla igenom alla fnuttar så att det är "" konsekvent. - Klart, fixat av Filip och Mona.
 
 5. 
 

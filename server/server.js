@@ -19,7 +19,7 @@ server
 
 // Starta servern
 server.listen(3000, () => { 
-    console.log(`Server is running on http://localhost:3000`);
+    console.log("Server is running on http://localhost:3000");
 })
 
 // Skapa routes 
@@ -27,7 +27,7 @@ server.listen(3000, () => {
 // Route för att hämta alla produkter / rader ur databasen.
 server.get("/products", (req, res) => {
     // SQL fråga
-    const sql = `SELECT * FROM products`;
+    const sql = "SELECT * FROM products";
 
     db.all(sql, (err, rows) => {
         if (err) {
@@ -112,14 +112,14 @@ server.put("/products", (req,res) => {
 server.delete("/products/:id", (req, res) => {
     const productID = req.params.id;
     console.log("Received productID:", productID);
-    const sql = `DELETE FROM products WHERE productID = ?`;
+    const sql = "DELETE FROM products WHERE productID = ?";
 
     db.run(sql, [productID], (err) => {
         if (err) {
             console.log(err);
             res.status(500).send(err);
         } else {
-            res.send(`The product has successfully been deleted from the database!`);
+            res.send("The product has successfully been deleted from the database!");
         } 
     });         
 });

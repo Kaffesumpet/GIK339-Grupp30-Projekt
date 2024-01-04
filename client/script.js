@@ -28,7 +28,7 @@ function fetchProducts(e) {
                     </div> 
                 </div>
             </div>`;
-      }); 
+      })
 
       html += `</div>`; 
 
@@ -47,6 +47,9 @@ function fetchProducts(e) {
         })
       });
 
+
+      // Kod för att korten ska förstoras när man hovrar och trycker på dem
+
       const elementCards = document.querySelectorAll(".card");
 
       elementCards.forEach(function (card) {
@@ -64,10 +67,17 @@ function fetchProducts(e) {
           });
       });
     }
-  });
+  })
+  .catch(error => {
+    console.error("There was a problem with the fetch operation:", error); 
+  })
+
 }
 
+
 fetchProducts();
+
+
 
 // Gör så att bara submitknappen syns på formuläret när man trycker "submit to database".
 document.addEventListener("DOMContentLoaded", () => {
@@ -79,7 +89,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
 userForm.addEventListener("submit", handleSubmit);
+
 
 function fetchSingleProduct(productID) {
   fetch(`${serverURL}/${productID}`, {method: "GET"})
@@ -91,8 +103,12 @@ function fetchSingleProduct(productID) {
       userForm.productPrice.value = product.productPrice;
       userForm.productAffiliation.value = product.productAffiliation;
 
-    })
-};
+    }) 
+    .catch(error => {
+      console.error("There was a problem with the fetch operation:", error);
+  });
+}
+
 
 function handleSubmit(e) {
   e.preventDefault();
@@ -119,8 +135,10 @@ function handleSubmit(e) {
     };
   }
 
+
   const method = productId ? "PUT" : "POST";
   
+
   fetch(serverURL, {
     method: method,
     headers: {
@@ -128,17 +146,17 @@ function handleSubmit(e) {
     },
     body: JSON.stringify(serverObject),
   })
-  .then(response => {
-    if (!response.ok) {
+  .then(result => {
+    if (!result.ok) {
       throw new Error("Network response was not ok.");
     }
-    return response.text();
+    return result.text();
   })  
-  .then(responseText => {
-    showModal("Success!", responseText, () => {
+  .then(resultText => {
+    showModal("Success!", resultText, () => {
     fetchProducts();
     userForm.reset();
-    userForm.productID.value = ''; // Rensa produkt-ID efter uppdatering/skapande
+    userForm.productID.value = " "; // Rensa produkt-ID efter uppdatering/skapande
     });
   }) 
   .catch(error => {
@@ -147,7 +165,9 @@ function handleSubmit(e) {
   });
 }
 
+
 userForm.addEventListener("click", handleClear());
+
 
 function handleClear() { 
   userForm.productName.value  = " ";
@@ -155,6 +175,7 @@ function handleClear() {
   userForm.productPrice.value  = " ";
   userForm.productAffiliation.value = " ";
 } 
+
 
 function showModal(title, message, callback) {
   const modalMessage = document.querySelector("#messageModal .modal-body p");
@@ -184,17 +205,18 @@ function showModal(title, message, callback) {
   });
 } 
 
+
 function handleDelete(productID) {
   console.log("delete", productID);
   fetch(`${serverURL}/${productID}`, {method: "DELETE"})
-    .then(response => {
-      if (!response.ok) { 
+    .then(result => {
+      if (!result.ok) { 
         throw new Error("Network response was not ok.");
       }
-      return response.text();
+      return result.text();
     })  
-    .then(responseText => {
-      showModal("Success!", responseText, () => {
+    .then(resultText => {
+      showModal("Success!", resultText, () => {
       fetchProducts();
       });
     }) 
