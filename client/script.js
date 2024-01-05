@@ -82,6 +82,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+userForm.addEventListener("submit", handleSubmit);
+document.querySelector("#clearBtn").addEventListener("click", handleClear);
+
 // Funktion för att hämta en produkt (rad) ur databasen beroende på ID.
 function fetchSingleProduct(productID) {
   fetch(`${serverURL}/${productID}`, {method: "GET"})
@@ -98,7 +101,6 @@ function fetchSingleProduct(productID) {
 }
 
 // Funktion för att skicka data till databasen, uppdatera eller lägga till helt ny.
-userForm.addEventListener("submit", handleSubmit);
 function handleSubmit(e) {
   e.preventDefault();
 
@@ -150,10 +152,30 @@ function handleSubmit(e) {
     console.error("There was a problem with the fetch operation:", error);
     showModal("Error", "An error has occurred!");
   });
+} 
+
+// Funktion för att hantera borttagning av produkter ur databasen.
+function handleDelete(productID) {
+  console.log("delete", productID);
+  fetch(`${serverURL}/${productID}`, {method: "DELETE"})
+    .then(result => {
+      if (!result.ok) { 
+        throw new Error("Network response was not ok.");
+      }
+      return result.text();
+    })  
+    .then(resultText => {
+      showModal("Success!", resultText, () => {
+      fetchProducts();
+      });
+    }) 
+    .catch(error => {
+      console.error("There was a problem with the fetch operation:", error);
+      showModal("Error", "An error has occurred!");
+    });    
 }
 
 // Funktion för att rensa formuläret.
-document.querySelector("#clearBtn").addEventListener("click", handleClear);
 function handleClear() { 
   userForm.productName.selectedIndex = 0;
   userForm.productCategory.selectedIndex = 0;
@@ -186,25 +208,4 @@ function showModal(title, message, callback) {
       callback();
     }   
   });
-} 
-
-// Funktion för att hantera borttagning av produkter ur databasen.
-function handleDelete(productID) {
-  console.log("delete", productID);
-  fetch(`${serverURL}/${productID}`, {method: "DELETE"})
-    .then(result => {
-      if (!result.ok) { 
-        throw new Error("Network response was not ok.");
-      }
-      return result.text();
-    })  
-    .then(resultText => {
-      showModal("Success!", resultText, () => {
-      fetchProducts();
-      });
-    }) 
-    .catch(error => {
-      console.error("There was a problem with the fetch operation:", error);
-      showModal("Error", "An error has occurred!");
-    });    
 }
