@@ -1,10 +1,10 @@
 const serverURL = "http://localhost:3000/products";
 
 // Fetch funktion för att kunna visa allt i databasen i cards -format.
-function fetchProducts(e) {
-  fetch(serverURL)
+function fetchProducts() {
+  fetch(serverURL, {method: "GET"}) 
   .then((result) => result.json())
-  .then((products) => {
+  .then((products) => { 
     if (products.length > 0) {
       let html = `<div class="container-fluid center row g-4">`;
       products.forEach((product) => {
@@ -49,7 +49,6 @@ function fetchProducts(e) {
 
       // Kod för att korten ska förstoras när man hovrar och trycker på dem
       const elementCards = document.querySelectorAll(".card");
-
       elementCards.forEach(function (card) {
         card.addEventListener("click", function () {
             if (card.classList.contains("open")) {
@@ -88,7 +87,6 @@ function fetchSingleProduct(productID) {
   fetch(`${serverURL}/${productID}`, {method: "GET"})
     .then((result) => result.json())
     .then((product) => { 
-    // console.log(product);
       userForm.productName.value = product.productName;
       userForm.productCategory.value = product.productCategory;
       userForm.productPrice.value = product.productPrice;
