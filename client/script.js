@@ -85,41 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
 userForm.addEventListener("submit", handleSubmit);
 document.querySelector("#clearBtn").addEventListener("click", handleClear);
 
-// Funktion för att rensa formuläret.
-function handleClear() { 
-  userForm.productName.selectedIndex = 0;
-  userForm.productCategory.selectedIndex = 0;
-  userForm.productPrice.value  = " ";
-  userForm.productAffiliation.selectedIndex = 0;
-} 
-
-// Funktion för att visa bekräftelse modaler.
-function showModal(title, message, callback) {
-  const modalMessage = document.querySelector("#messageModal .modal-body p");
-  const modalTitle = document.querySelector("#messageModal .modal-title");
-  const confirmButton = document.querySelector("#messageModal #confirmBtn");
-
-  modalTitle.textContent = title;
-  modalMessage.textContent = message;
-
-  // Hämtar modalerna & visar bekräftelsemodalen
-  const messageModal = new bootstrap.Modal(document.querySelector("#messageModal"));
-  const submitModal = bootstrap.Modal.getInstance(document.querySelector("#submitModal"));
-  messageModal.show();
-
-  // Sätter eventlyssnare på knappen samt stänger båda modalerna & visar produkterna igen.
-  confirmButton.addEventListener("click", function() {
-    messageModal.hide();
-    if (submitModal) {
-      submitModal.hide();
-    }
-    fetchProducts();
-    if (callback) {
-      callback();
-    }   
-  });
-}
-
 // Funktion för att hämta en produkt (rad) ur databasen beroende på ID.
 function fetchSingleProduct(productID) {
   fetch(`${serverURL}/${productID}`, {method: "GET"})
@@ -208,4 +173,39 @@ function handleDelete(productID) {
       console.error("There was a problem with the fetch operation:", error);
       showModal("Error", "An error has occurred!");
     });    
+}
+
+// Funktion för att rensa formuläret.
+function handleClear() { 
+  userForm.productName.selectedIndex = 0;
+  userForm.productCategory.selectedIndex = 0;
+  userForm.productPrice.value  = " ";
+  userForm.productAffiliation.selectedIndex = 0;
+} 
+
+// Funktion för att visa bekräftelse modaler.
+function showModal(title, message, callback) {
+  const modalMessage = document.querySelector("#messageModal .modal-body p");
+  const modalTitle = document.querySelector("#messageModal .modal-title");
+  const confirmButton = document.querySelector("#messageModal #confirmBtn");
+
+  modalTitle.textContent = title;
+  modalMessage.textContent = message;
+
+  // Hämtar modalerna & visar bekräftelsemodalen
+  const messageModal = new bootstrap.Modal(document.querySelector("#messageModal"));
+  const submitModal = bootstrap.Modal.getInstance(document.querySelector("#submitModal"));
+  messageModal.show();
+
+  // Sätter eventlyssnare på knappen samt stänger båda modalerna & visar produkterna igen.
+  confirmButton.addEventListener("click", function() {
+    messageModal.hide();
+    if (submitModal) {
+      submitModal.hide();
+    }
+    fetchProducts();
+    if (callback) {
+      callback();
+    }   
+  });
 }
