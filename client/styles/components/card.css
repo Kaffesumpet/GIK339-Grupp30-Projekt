@@ -4,11 +4,8 @@
 }
 
 .card {
-    width: calc(95% - 1rem);
     min-height: 27.5rem;
-    position: relative;
     box-shadow: 0 .4rem .8rem rgba(33, 37, 41);
-    background-color: #fff;
     transition: all 0.6s;
     cursor: Pointer;
     margin-bottom: 2rem;

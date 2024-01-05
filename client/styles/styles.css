@@ -8,19 +8,6 @@
   box-sizing: border-box;
 }
 
-body {
-  line-height: 1.6;
-  background-color: #eee9e9;
-}
-
-
-.main {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  padding: 2rem;
-}
-
 .b-example-divider {
   width: 100%;
   height: 3rem;
