@@ -1,6 +1,6 @@
 // Gör det möjligt att använda express 
 const express = require("express");
-const server = express();
+const server = express();  
 
 // Importera sqlite3 + skapa en instans av databasobjektet
 const sqlite3 = require("sqlite3").verbose();
@@ -14,7 +14,7 @@ server
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "*");
         res.header("Access-Control-Allow-Methods", "*");
-        next();
+        next(); 
 });
 
 // Starta servern
@@ -41,7 +41,7 @@ server.get("/products", (req, res) => {
 // Route för att hämta en produkt / rad ur databasen beroende på ID.
 server.get("/products/:id", (req, res) => {
     const productID = req.params.id; 
-    const sql = "SELECT * FROM products WHERE productID =? "; // ? = placeholder.
+    const sql = "SELECT * FROM products WHERE productID = ?"; // ? = placeholder.
 
     db.get(sql, [productID], (err, row) => {
         if (err) {
