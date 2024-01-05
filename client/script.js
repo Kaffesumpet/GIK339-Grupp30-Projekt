@@ -1,6 +1,6 @@
 const serverURL = "http://localhost:3000/products";
 
-// Fetch funktion för att kunna visa allt i databasen i cards
+// Fetch funktion för att kunna visa allt i databasen i cards -format.
 function fetchProducts(e) {
   fetch(serverURL)
   .then((result) => result.json())
@@ -47,9 +47,7 @@ function fetchProducts(e) {
         })
       });
 
-
       // Kod för att korten ska förstoras när man hovrar och trycker på dem
-
       const elementCards = document.querySelectorAll(".card");
 
       elementCards.forEach(function (card) {
@@ -71,45 +69,38 @@ function fetchProducts(e) {
   .catch(error => {
     console.error("There was a problem with the fetch operation:", error); 
   })
-
 }
-
-
+// Visar alla produkter i databasen när sidan laddas
 fetchProducts();
-
-
 
 // Gör så att bara submitknappen syns på formuläret när man trycker "submit to database".
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("submitModalButton").addEventListener("click", () => {
     document.getElementById("submitModalLabel").textContent = "Submit New Product";
-    document.getElementById("inputProductID").value = ""; // Rensa produkt-ID
+    document.getElementById("inputProductID").value = "";
     document.getElementById("submitBtn").style.display = "block";
     document.getElementById("updateBtn").style.display = "none";
   });
 });
 
-
-userForm.addEventListener("submit", handleSubmit);
-
-
+// Funktion för att hämta en produkt (rad) ur databasen beroende på ID.
 function fetchSingleProduct(productID) {
   fetch(`${serverURL}/${productID}`, {method: "GET"})
     .then((result) => result.json())
     .then((product) => { 
-     // console.log(product);
+    // console.log(product);
       userForm.productName.value = product.productName;
       userForm.productCategory.value = product.productCategory;
       userForm.productPrice.value = product.productPrice;
       userForm.productAffiliation.value = product.productAffiliation;
-
     }) 
     .catch(error => {
       console.error("There was a problem with the fetch operation:", error);
   });
 }
 
-
+// Funktion för att skicka data till databasen, uppdatera eller lägga till helt ny.
+userForm.addEventListener("submit", handleSubmit);
 function handleSubmit(e) {
   e.preventDefault();
 
@@ -135,10 +126,8 @@ function handleSubmit(e) {
     };
   }
 
-
   const method = productId ? "PUT" : "POST";
   
-
   fetch(serverURL, {
     method: method,
     headers: {
@@ -165,18 +154,16 @@ function handleSubmit(e) {
   });
 }
 
-
-userForm.addEventListener("click", handleClear());
-
-
+// Funktion för att rensa formuläret.
+document.querySelector("#clearBtn").addEventListener("click", handleClear);
 function handleClear() { 
-  userForm.productName.value  = " ";
-  userForm.productCategory.value  = " ";
+  userForm.productName.selectedIndex = 0;
+  userForm.productCategory.selectedIndex = 0;
   userForm.productPrice.value  = " ";
-  userForm.productAffiliation.value = " ";
+  userForm.productAffiliation.selectedIndex = 0;
 } 
 
-
+// Funktion för att visa bekräftelse modaler.
 function showModal(title, message, callback) {
   const modalMessage = document.querySelector("#messageModal .modal-body p");
   const modalTitle = document.querySelector("#messageModal .modal-title");
@@ -185,15 +172,13 @@ function showModal(title, message, callback) {
   modalTitle.textContent = title;
   modalMessage.textContent = message;
 
-  // Hämtar modalerna
+  // Hämtar modalerna & visar bekräftelsemodalen
   const messageModal = new bootstrap.Modal(document.querySelector("#messageModal"));
   const submitModal = bootstrap.Modal.getInstance(document.querySelector("#submitModal"));
-  // Visa bekräftelsemodalen
   messageModal.show();
 
-  // Lägg till en lyssnare på confirmBtn
+  // Sätter eventlyssnare på knappen samt stänger båda modalerna & visar produkterna igen.
   confirmButton.addEventListener("click", function() {
-    // Stänger modalerna & visar produkterna igen.
     messageModal.hide();
     if (submitModal) {
       submitModal.hide();
@@ -205,7 +190,7 @@ function showModal(title, message, callback) {
   });
 } 
 
-
+// Funktion för att hantera borttagning av produkter ur databasen.
 function handleDelete(productID) {
   console.log("delete", productID);
   fetch(`${serverURL}/${productID}`, {method: "DELETE"})

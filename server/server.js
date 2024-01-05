@@ -6,7 +6,7 @@ const server = express();
 const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("./gik339-projekt.db")  
 
-// CORS
+// CORS - Cross Origin Resource Sharing, gör det möjligt att skicka och ta emot data från en annan domän.
 server
     .use(express.json())
     .use(express.urlencoded({ extended: false }))
@@ -22,7 +22,7 @@ server.listen(3000, () => {
     console.log("Server is running on http://localhost:3000");
 })
 
-// Skapa routes 
+// Skapa routes, använder server.get, server.post, server.put, server.delete med placeholders för att motverka SQL -injektioner. 
 
 // Route för att hämta alla produkter / rader ur databasen.
 server.get("/products", (req, res) => {
@@ -41,7 +41,7 @@ server.get("/products", (req, res) => {
 // Route för att hämta en produkt / rad ur databasen beroende på ID.
 server.get("/products/:id", (req, res) => {
     const productID = req.params.id; 
-    const sql = "SELECT * FROM products WHERE productID =? ";
+    const sql = "SELECT * FROM products WHERE productID =? "; // ? = placeholder.
 
     db.get(sql, [productID], (err, row) => {
         if (err) {
@@ -76,8 +76,7 @@ server.post("/products", (req, res) => {
     });
 })
 
-// Ny Put route som använder placeholders för att undvika SQL injektioner, 
-// uppdaterar en produkt (rad) i databasen beroende på ID't.
+// Put route uppdaterar en produkt (rad) i databasen beroende på ID't.
 server.put("/products", (req,res) => {
     const bodyData = req.body;
     const id = bodyData.productID; 
@@ -109,6 +108,7 @@ server.put("/products", (req,res) => {
     });  
 });
 
+// DELETE route, tar bort en produkt (rad) ur databasen beroende på ID't.
 server.delete("/products/:id", (req, res) => {
     const productID = req.params.id;
     console.log("Received productID:", productID);
